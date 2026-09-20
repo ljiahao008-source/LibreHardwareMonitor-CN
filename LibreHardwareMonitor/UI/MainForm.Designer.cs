@@ -58,6 +58,7 @@ namespace LibreHardwareMonitor.UI
             this.gpuMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.powerMonitorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fanControllerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acpiWmiMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hddMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nicMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.psuMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -295,6 +296,7 @@ namespace LibreHardwareMonitor.UI
             this.gpuMenuItem,
             this.powerMonitorMenuItem,
             this.fanControllerMenuItem,
+            this.acpiWmiMenuItem,
             this.hddMenuItem,
             this.nicMenuItem,
             this.psuMenuItem,
@@ -338,6 +340,12 @@ namespace LibreHardwareMonitor.UI
             this.fanControllerMenuItem.Name = "fanControllerMenuItem";
             this.fanControllerMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fanControllerMenuItem.Text = "Fan Controllers";
+            //
+            // acpiWmiMenuItem
+            //
+            this.acpiWmiMenuItem.Name = "acpiWmiMenuItem";
+            this.acpiWmiMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.acpiWmiMenuItem.Text = "ACPI WMI";
             //
             // hddMenuItem
             //
@@ -1186,6 +1194,7 @@ namespace LibreHardwareMonitor.UI
         private System.Windows.Forms.ToolStripMenuItem gpuMenuItem;
         private System.Windows.Forms.ToolStripMenuItem powerMonitorMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fanControllerMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem acpiWmiMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ramMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logSensorsMenuItem;
         private System.Windows.Forms.ToolStripSeparator logSeparatorMenuItem;

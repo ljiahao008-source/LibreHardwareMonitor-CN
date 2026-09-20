@@ -123,6 +123,7 @@
     <Compile Remove="Tree\NativeMethods.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="System.Resources.Extensions" Version="10.0.3" />
   </ItemGroup>
 </Project>

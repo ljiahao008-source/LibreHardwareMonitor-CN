@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
 // If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 // Copyright (C) LibreHardwareMonitor and Contributors.
 // Partial Copyright (C) Michael Möller <mmoeller@openhardwaremonitor.org> and Contributors.
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using LibreHardwareMonitor.Hardware.AcpiWmi;
 using LibreHardwareMonitor.Hardware.Battery;
 using LibreHardwareMonitor.Hardware.Controller.AeroCool;
 using LibreHardwareMonitor.Hardware.Controller.AquaComputer;
@@ -39,6 +40,7 @@ public class Computer : IComputer
     private readonly object _lock = new();
     private readonly ISettings _settings;
 
+    private bool _acpiWmiEnabled;
     private bool _batteryEnabled;
     private bool _controllerEnabled;
     private bool _cpuEnabled;
@@ -89,6 +91,24 @@ public class Computer : IComputer
 
                 return list;
             }
+        }
+    }
+
+    /// <inheritdoc />
+    public bool IsAcpiWmiEnabled
+    {
+        get { return _acpiWmiEnabled; }
+        set
+        {
+            if (_open && value != _acpiWmiEnabled)
+            {
+                if (value)
+                    Add(new AcpiWmiGroup(_settings));
+                else
+                    RemoveType<AcpiWmiGroup>();
+            }
+
+            _acpiWmiEnabled = value;
         }
     }
 
@@ -522,6 +542,9 @@ public class Computer : IComputer
 
     private void AddGroups()
     {
+        if (_acpiWmiEnabled)
+            Add(new AcpiWmiGroup(_settings));
+
         if (_motherboardEnabled)
             Add(new MotherboardGroup(_smbios, _settings));
 

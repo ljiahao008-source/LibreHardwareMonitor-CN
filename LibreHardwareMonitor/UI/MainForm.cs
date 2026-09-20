@@ -39,6 +39,7 @@ public sealed partial class MainForm : Form
     private readonly UserOption _readBatterySensors;
     private readonly UserOption _readCpuSensors;
     private readonly UserOption _readFanControllersSensors;
+    private readonly UserOption _readAcpiWmiSensors;
     private readonly UserOption _readGpuSensors;
     private readonly UserOption _readPowerMonitorSensors;
     private readonly UserOption _readHddSensors;
@@ -271,6 +272,9 @@ public sealed partial class MainForm : Form
 
         _readFanControllersSensors = new UserOption("fanControllerMenuItem", true, fanControllerMenuItem, _settings);
         _readFanControllersSensors.Changed += delegate { _computer.IsControllerEnabled = _readFanControllersSensors.Value; };
+
+        _readAcpiWmiSensors = new UserOption("acpiWmiMenuItem", false, acpiWmiMenuItem, _settings);
+        _readAcpiWmiSensors.Changed += delegate { _computer.IsAcpiWmiEnabled = _readAcpiWmiSensors.Value; };
 
         _readHddSensors = new UserOption("hddMenuItem", true, hddMenuItem, _settings);
         _readHddSensors.Changed += delegate { _computer.IsStorageEnabled = _readHddSensors.Value; };

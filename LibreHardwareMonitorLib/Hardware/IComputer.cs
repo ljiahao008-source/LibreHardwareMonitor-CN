@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
 // If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 // Copyright (C) LibreHardwareMonitor and Contributors.
 // Partial Copyright (C) Michael Möller <mmoeller@openhardwaremonitor.org> and Contributors.
@@ -41,6 +41,15 @@ public interface IComputer : IElement
     /// </summary>
     /// <returns><see langword="true" /> if a given category of devices is already enabled.</returns>
     bool IsBatteryEnabled { get; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether collecting information about the private ACPI WMI fan
+    /// interface (<see cref="AcpiWmi.AcpiWmiGroup" />) should be enabled and updated. This interface
+    /// is only present on some devices (e.g. MECHREVO IMINI mini PCs) and requires administrator
+    /// privileges to be read.
+    /// </summary>
+    /// <returns><see langword="true" /> if a given category of devices is already enabled.</returns>
+    bool IsAcpiWmiEnabled { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether collecting information about:
