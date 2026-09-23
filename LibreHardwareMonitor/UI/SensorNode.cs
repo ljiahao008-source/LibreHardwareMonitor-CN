@@ -169,10 +169,10 @@ public class SensorNode : Node
             StringBuilder stringBuilder = new();
 
             if (Sensor is ICriticalSensorLimits criticalSensorLimits)
-                OptionallyAppendCriticalRange(stringBuilder, criticalSensorLimits.CriticalLowLimit, criticalSensorLimits.CriticalHighLimit, "critical");
+                OptionallyAppendCriticalRange(stringBuilder, criticalSensorLimits.CriticalLowLimit, criticalSensorLimits.CriticalHighLimit, "临界");
 
             if (Sensor is ISensorLimits sensorLimits)
-                OptionallyAppendCriticalRange(stringBuilder, sensorLimits.LowLimit, sensorLimits.HighLimit, "normal");
+                OptionallyAppendCriticalRange(stringBuilder, sensorLimits.LowLimit, sensorLimits.HighLimit, "正常");
 
             return stringBuilder.ToString();
         }
@@ -260,12 +260,12 @@ public class SensorNode : Node
         if (min.HasValue)
         {
             str.AppendLine(max.HasValue
-                               ? $"{CultureInfo.CurrentUICulture.TextInfo.ToTitleCase(kind)} range: {ValueToString(min)} to {ValueToString(max)}."
-                               : $"Minimal {kind} value: {ValueToString(min)}.");
+                               ? $"{kind}范围：{ValueToString(min)} ~ {ValueToString(max)}。"
+                               : $"最小{kind}值：{ValueToString(min)}。");
         }
         else if (max.HasValue)
         {
-            str.AppendLine($"Maximal {kind} value: {ValueToString(max)}.");
+            str.AppendLine($"最大{kind}值：{ValueToString(max)}。");
         }
     }
 

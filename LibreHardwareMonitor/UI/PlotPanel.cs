@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
 // If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 // Copyright (C) LibreHardwareMonitor and Contributors.
 // Partial Copyright (C) Michael Möller <mmoeller@openhardwaremonitor.org> and Contributors.
@@ -127,7 +127,7 @@ public class PlotPanel : UserControl
             }
         };
 
-        ToolStripMenuItem stackedAxesMenuItem = new ToolStripMenuItem("Stacked Axes");
+        ToolStripMenuItem stackedAxesMenuItem = new ToolStripMenuItem("堆叠坐标轴");
         _stackedAxes = new UserOption("stackedAxes", true, stackedAxesMenuItem, _settings);
         _stackedAxes.Changed += (sender, e) =>
         {
@@ -136,7 +136,7 @@ public class PlotPanel : UserControl
         };
         menu.Items.Add(stackedAxesMenuItem);
 
-        ToolStripMenuItem showAxesLabelsMenuItem = new ToolStripMenuItem("Show Axes Labels");
+        ToolStripMenuItem showAxesLabelsMenuItem = new ToolStripMenuItem("显示坐标轴标签");
         _showAxesLabels = new UserOption("showAxesLabels", true, showAxesLabelsMenuItem, _settings);
         _showAxesLabels.Changed += (sender, e) =>
         {
@@ -147,22 +147,22 @@ public class PlotPanel : UserControl
         };
         menu.Items.Add(showAxesLabelsMenuItem);
 
-        ToolStripMenuItem timeAxisMenuItem = new ToolStripMenuItem("Time Axis");
+        ToolStripMenuItem timeAxisMenuItem = new ToolStripMenuItem("时间轴");
         ToolStripMenuItem[] timeAxisMenuItems =
-        { new ToolStripMenuItem("Enable Zoom"),
-            new ToolStripMenuItem("Auto", null, (s, e) => { TimeAxisZoom(0, double.NaN); }),
-            new ToolStripMenuItem("5 min", null, (s, e) => { TimeAxisZoom(0, 5 * 60); }),
-            new ToolStripMenuItem("10 min", null, (s, e) => { TimeAxisZoom(0, 10 * 60); }),
-            new ToolStripMenuItem("20 min", null, (s, e) => { TimeAxisZoom(0, 20 * 60); }),
-            new ToolStripMenuItem("30 min", null, (s, e) => { TimeAxisZoom(0, 30 * 60); }),
-            new ToolStripMenuItem("45 min", null, (s, e) => { TimeAxisZoom(0, 45 * 60); }),
-            new ToolStripMenuItem("1 h", null, (s, e) => { TimeAxisZoom(0, 60 * 60); }),
-            new ToolStripMenuItem("1.5 h", null, (s, e) => { TimeAxisZoom(0, 1.5 * 60 * 60); }),
-            new ToolStripMenuItem("2 h", null, (s, e) => { TimeAxisZoom(0, 2 * 60 * 60); }),
-            new ToolStripMenuItem("3 h", null, (s, e) => { TimeAxisZoom(0, 3 * 60 * 60); }),
-            new ToolStripMenuItem("6 h", null, (s, e) => { TimeAxisZoom(0, 6 * 60 * 60); }),
-            new ToolStripMenuItem("12 h", null, (s, e) => { TimeAxisZoom(0, 12 * 60 * 60); }),
-            new ToolStripMenuItem("24 h", null, (s, e) => { TimeAxisZoom(0, 24 * 60 * 60); }) };
+        { new ToolStripMenuItem("启用缩放"),
+            new ToolStripMenuItem("自动", null, (s, e) => { TimeAxisZoom(0, double.NaN); }),
+            new ToolStripMenuItem("5 分钟", null, (s, e) => { TimeAxisZoom(0, 5 * 60); }),
+            new ToolStripMenuItem("10 分钟", null, (s, e) => { TimeAxisZoom(0, 10 * 60); }),
+            new ToolStripMenuItem("20 分钟", null, (s, e) => { TimeAxisZoom(0, 20 * 60); }),
+            new ToolStripMenuItem("30 分钟", null, (s, e) => { TimeAxisZoom(0, 30 * 60); }),
+            new ToolStripMenuItem("45 分钟", null, (s, e) => { TimeAxisZoom(0, 45 * 60); }),
+            new ToolStripMenuItem("1 小时", null, (s, e) => { TimeAxisZoom(0, 60 * 60); }),
+            new ToolStripMenuItem("1.5 小时", null, (s, e) => { TimeAxisZoom(0, 1.5 * 60 * 60); }),
+            new ToolStripMenuItem("2 小时", null, (s, e) => { TimeAxisZoom(0, 2 * 60 * 60); }),
+            new ToolStripMenuItem("3 小时", null, (s, e) => { TimeAxisZoom(0, 3 * 60 * 60); }),
+            new ToolStripMenuItem("6 小时", null, (s, e) => { TimeAxisZoom(0, 6 * 60 * 60); }),
+            new ToolStripMenuItem("12 小时", null, (s, e) => { TimeAxisZoom(0, 12 * 60 * 60); }),
+            new ToolStripMenuItem("24 小时", null, (s, e) => { TimeAxisZoom(0, 24 * 60 * 60); }) };
 
         foreach (ToolStripItem mi in timeAxisMenuItems)
             timeAxisMenuItem.DropDownItems.Add(mi);
@@ -174,10 +174,10 @@ public class PlotPanel : UserControl
             _timeAxis.IsZoomEnabled = _timeAxisEnableZoom.Value;
         };
 
-        ToolStripMenuItem yAxesMenuItem = new ToolStripMenuItem("Value Axes");
+        ToolStripMenuItem yAxesMenuItem = new ToolStripMenuItem("数值坐标轴");
         ToolStripMenuItem[] yAxesMenuItems =
-        { new ToolStripMenuItem("Enable Zoom"),
-            new ToolStripMenuItem("Autoscale All", null, (s, e) => { AutoscaleAllYAxes(); }) };
+        { new ToolStripMenuItem("启用缩放"),
+            new ToolStripMenuItem("全部自动缩放", null, (s, e) => { AutoscaleAllYAxes(); }) };
 
         foreach (ToolStripItem mi in yAxesMenuItems)
             yAxesMenuItem.DropDownItems.Add(mi);
@@ -248,7 +248,8 @@ public class PlotPanel : UserControl
                 MinorGridlineThickness = 1,
                 MinorGridlineColor = _timeAxis.MinorGridlineColor,
                 AxislineStyle = LineStyle.Solid,
-                Title = typeName,
+                // 标题用中文，Key 保持英文枚举名不变（Key 会拼进 plotPanel.Min/Max 设置键）。
+                Title = GetSensorTypeName(type),
                 Key = typeName,
             };
 
@@ -286,6 +287,38 @@ public class PlotPanel : UserControl
         model.IsLegendVisible = false;
 
         return model;
+    }
+
+    /// <summary>
+    /// 传感器类型的中文名，用作曲线纵轴标题。与 <see cref="TypeNode" /> 中的分组名保持一致。
+    /// </summary>
+    private static string GetSensorTypeName(SensorType type)
+    {
+        return type switch
+        {
+            SensorType.Voltage => "电压",
+            SensorType.Current => "电流",
+            SensorType.Power => "功耗",
+            SensorType.Clock => "时钟",
+            SensorType.Temperature => "温度",
+            SensorType.Load => "负载",
+            SensorType.Frequency => "频率",
+            SensorType.Fan => "风扇",
+            SensorType.Flow => "流量",
+            SensorType.Control => "控制",
+            SensorType.Level => "水平",
+            SensorType.Factor => "系数",
+            SensorType.Data => "数据",
+            SensorType.SmallData => "数据",
+            SensorType.Throughput => "吞吐量",
+            SensorType.TimeSpan => "时间",
+            SensorType.Timing => "时序",
+            SensorType.Energy => "容量",
+            SensorType.Noise => "噪声",
+            SensorType.Conductivity => "电导率",
+            SensorType.Humidity => "湿度",
+            _ => type.ToString()
+        };
     }
 
     private void SetDpi()

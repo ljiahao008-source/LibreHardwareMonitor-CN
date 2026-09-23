@@ -129,16 +129,16 @@ internal sealed class Amd17Cpu : AmdCpu
         {
             _cpu = (Amd17Cpu)hardware;
 
-            _packagePower = new Sensor("Package", _cpu._sensorTypeIndex[SensorType.Power]++, SensorType.Power, _cpu, _cpu._settings);
-            _coreTemperatureTctl = new Sensor("Core (Tctl)", _cpu._sensorTypeIndex[SensorType.Temperature]++, SensorType.Temperature, _cpu, _cpu._settings);
-            _coreTemperatureTdie = new Sensor("Core (Tdie)", _cpu._sensorTypeIndex[SensorType.Temperature]++, SensorType.Temperature, _cpu, _cpu._settings);
-            _coreTemperatureTctlTdie = new Sensor("Core (Tctl/Tdie)", _cpu._sensorTypeIndex[SensorType.Temperature]++, SensorType.Temperature, _cpu, _cpu._settings);
+            _packagePower = new Sensor("封装功耗", _cpu._sensorTypeIndex[SensorType.Power]++, SensorType.Power, _cpu, _cpu._settings);
+            _coreTemperatureTctl = new Sensor("核心温度 (Tctl)", _cpu._sensorTypeIndex[SensorType.Temperature]++, SensorType.Temperature, _cpu, _cpu._settings);
+            _coreTemperatureTdie = new Sensor("核心温度 (Tdie)", _cpu._sensorTypeIndex[SensorType.Temperature]++, SensorType.Temperature, _cpu, _cpu._settings);
+            _coreTemperatureTctlTdie = new Sensor("核心温度 (Tctl/Tdie)", _cpu._sensorTypeIndex[SensorType.Temperature]++, SensorType.Temperature, _cpu, _cpu._settings);
             _ccdTemperatures = new Sensor[8]; // Hardcoded until there's a way to get max CCDs.
-            _coreVoltage = new Sensor("Core (SVI2 TFN)", _cpu._sensorTypeIndex[SensorType.Voltage]++, SensorType.Voltage, _cpu, _cpu._settings);
-            _socVoltage = new Sensor("SoC (SVI2 TFN)", _cpu._sensorTypeIndex[SensorType.Voltage]++, SensorType.Voltage, _cpu, _cpu._settings);
-            _busClock = new Sensor("Bus Speed", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
-            _avgClock = new Sensor("Cores (Average)", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
-            _avgClockEffcetive = new Sensor("Cores (Average Effective)", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
+            _coreVoltage = new Sensor("核心电压 (SVI2 TFN)", _cpu._sensorTypeIndex[SensorType.Voltage]++, SensorType.Voltage, _cpu, _cpu._settings);
+            _socVoltage = new Sensor("SoC 电压 (SVI2 TFN)", _cpu._sensorTypeIndex[SensorType.Voltage]++, SensorType.Voltage, _cpu, _cpu._settings);
+            _busClock = new Sensor("总线速度", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
+            _avgClock = new Sensor("核心平均频率", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
+            _avgClockEffcetive = new Sensor("核心平均有效频率", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
 
             _cpu.ActivateSensor(_packagePower);
             _cpu.ActivateSensor(_avgClock);
@@ -324,7 +324,7 @@ internal sealed class Amd17Cpu : AmdCpu
                         {
                             if (_ccdTemperatures[i] == null)
                             {
-                                _cpu.ActivateSensor(_ccdTemperatures[i] = new Sensor($"CCD{i + 1} (Tdie)",
+                                _cpu.ActivateSensor(_ccdTemperatures[i] = new Sensor($"CCD{i + 1} 温度 (Tdie)",
                                                                                      _cpu._sensorTypeIndex[SensorType.Temperature]++,
                                                                                      SensorType.Temperature,
                                                                                      _cpu,
@@ -342,7 +342,7 @@ internal sealed class Amd17Cpu : AmdCpu
 
                         if (_ccdsMaxTemperature == null)
                         {
-                            _cpu.ActivateSensor(_ccdsMaxTemperature = new Sensor("CCDs Max (Tdie)",
+                            _cpu.ActivateSensor(_ccdsMaxTemperature = new Sensor("CCD 最高温度 (Tdie)",
                                                                                  _cpu._sensorTypeIndex[SensorType.Temperature]++,
                                                                                  SensorType.Temperature,
                                                                                  _cpu,
@@ -351,7 +351,7 @@ internal sealed class Amd17Cpu : AmdCpu
 
                         if (_ccdsAverageTemperature == null)
                         {
-                            _cpu.ActivateSensor(_ccdsAverageTemperature = new Sensor("CCDs Average (Tdie)",
+                            _cpu.ActivateSensor(_ccdsAverageTemperature = new Sensor("CCD 平均温度 (Tdie)",
                                                                                      _cpu._sensorTypeIndex[SensorType.Temperature]++,
                                                                                      SensorType.Temperature,
                                                                                      _cpu,
@@ -642,11 +642,11 @@ internal sealed class Amd17Cpu : AmdCpu
         {
             _cpu = cpu;
             CoreId = id;
-            _clock = new Sensor("Core #" + CoreId, _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, cpu, cpu._settings);
-            _clockEffective = new Sensor("Core #" + CoreId + " (Effective)", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, cpu, cpu._settings);
-            _multiplier = new Sensor("Core #" + CoreId, cpu._sensorTypeIndex[SensorType.Factor]++, SensorType.Factor, cpu, cpu._settings);
-            _power = new Sensor("Core #" + CoreId + " (SMU)", cpu._sensorTypeIndex[SensorType.Power]++, SensorType.Power, cpu, cpu._settings);
-            _vcore = new Sensor("Core #" + CoreId + " VID", cpu._sensorTypeIndex[SensorType.Voltage]++, SensorType.Voltage, cpu, cpu._settings);
+            _clock = new Sensor("核心 #" + CoreId, _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, cpu, cpu._settings);
+            _clockEffective = new Sensor("核心 #" + CoreId + " (有效频率)", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, cpu, cpu._settings);
+            _multiplier = new Sensor("核心 #" + CoreId, cpu._sensorTypeIndex[SensorType.Factor]++, SensorType.Factor, cpu, cpu._settings);
+            _power = new Sensor("核心 #" + CoreId + " (SMU)", cpu._sensorTypeIndex[SensorType.Power]++, SensorType.Power, cpu, cpu._settings);
+            _vcore = new Sensor("核心 #" + CoreId + " VID", cpu._sensorTypeIndex[SensorType.Voltage]++, SensorType.Voltage, cpu, cpu._settings);
 
             cpu.ActivateSensor(_clock);
             cpu.ActivateSensor(_clockEffective);

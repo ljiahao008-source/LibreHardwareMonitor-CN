@@ -34,10 +34,10 @@ internal sealed class Amd10Cpu : AmdCpu
         _pawnModule = new AmdFamily10();
 
         // AMD family 1Xh processors support only one temperature sensor
-        _coreTemperature = new Sensor("CPU Cores", 0, SensorType.Temperature, this, new[] { new ParameterDescription("Offset [°C]", "Temperature offset.", 0) }, settings);
-        _coreVoltage = new Sensor("CPU Cores", 0, SensorType.Voltage, this, settings);
+        _coreTemperature = new Sensor("CPU 核心", 0, SensorType.Temperature, this, new[] { new ParameterDescription("Offset [°C]", "Temperature offset.", 0) }, settings);
+        _coreVoltage = new Sensor("CPU 核心", 0, SensorType.Voltage, this, settings);
         ActivateSensor(_coreVoltage);
-        _northbridgeVoltage = new Sensor("Northbridge", 0, SensorType.Voltage, this, settings);
+        _northbridgeVoltage = new Sensor("北桥电压", 0, SensorType.Voltage, this, settings);
         ActivateSensor(_northbridgeVoltage);
 
         _isSvi2 = (_family == 0x15 && _model >= 0x10) || _family == 0x16;
@@ -54,7 +54,7 @@ internal sealed class Amd10Cpu : AmdCpu
         }
 
         // get the pci address for the Miscellaneous Control registers
-        _busClock = new Sensor("Bus Speed", 0, SensorType.Clock, this, settings);
+        _busClock = new Sensor("总线速度", 0, SensorType.Clock, this, settings);
         _coreClocks = new Sensor[_coreCount];
         for (int i = 0; i < _coreClocks.Length; i++)
         {
@@ -98,7 +98,7 @@ internal sealed class Amd10Cpu : AmdCpu
 
         if (_pawnModule.HaveCstateResidencyInfo())
         {
-            _cStatesResidency = new[] { new Sensor("CPU Package C2", 0, SensorType.Level, this, settings), new Sensor("CPU Package C3", 1, SensorType.Level, this, settings) };
+            _cStatesResidency = new[] { new Sensor("CPU 封装 C2 状态", 0, SensorType.Level, this, settings), new Sensor("CPU 封装 C3 状态", 1, SensorType.Level, this, settings) };
             ActivateSensor(_cStatesResidency[0]);
             ActivateSensor(_cStatesResidency[1]);
         }

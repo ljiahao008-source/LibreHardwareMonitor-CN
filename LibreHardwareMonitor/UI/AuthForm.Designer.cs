@@ -1,4 +1,4 @@
-﻿namespace LibreHardwareMonitor.UI
+namespace LibreHardwareMonitor.UI
 {
     partial class AuthForm
     {
@@ -49,7 +49,7 @@
             this.enableHTTPAuthCheckBox.Name = "enableHTTPAuthCheckBox";
             this.enableHTTPAuthCheckBox.Size = new System.Drawing.Size(191, 17);
             this.enableHTTPAuthCheckBox.TabIndex = 0;
-            this.enableHTTPAuthCheckBox.Text = "Enable HTTP Basic Authentication";
+            this.enableHTTPAuthCheckBox.Text = "启用 HTTP 基本身份验证";
             this.enableHTTPAuthCheckBox.UseVisualStyleBackColor = true;
             this.enableHTTPAuthCheckBox.CheckedChanged += new System.EventHandler(this.EnableHTTPAuthCheckBox_CheckedChanged);
             // 
@@ -78,7 +78,7 @@
             this.httpUsernameLabel.Name = "httpUsernameLabel";
             this.httpUsernameLabel.Size = new System.Drawing.Size(90, 13);
             this.httpUsernameLabel.TabIndex = 6;
-            this.httpUsernameLabel.Text = "HTTP UserName:";
+            this.httpUsernameLabel.Text = "HTTP 用户名：";
             // 
             // httpPasswordLabel
             // 
@@ -87,7 +87,7 @@
             this.httpPasswordLabel.Name = "httpPasswordLabel";
             this.httpPasswordLabel.Size = new System.Drawing.Size(88, 13);
             this.httpPasswordLabel.TabIndex = 7;
-            this.httpPasswordLabel.Text = "HTTP Password:";
+            this.httpPasswordLabel.Text = "HTTP 密码：";
             // 
             // credentialsGroupBox
             // 
@@ -100,7 +100,7 @@
             this.credentialsGroupBox.Size = new System.Drawing.Size(279, 100);
             this.credentialsGroupBox.TabIndex = 5;
             this.credentialsGroupBox.TabStop = false;
-            this.credentialsGroupBox.Text = "Credentials";
+            this.credentialsGroupBox.Text = "凭据";
             // 
             // httpAuthCancelButton
             // 
@@ -109,7 +109,7 @@
             this.httpAuthCancelButton.Name = "httpAuthCancelButton";
             this.httpAuthCancelButton.Size = new System.Drawing.Size(75, 23);
             this.httpAuthCancelButton.TabIndex = 3;
-            this.httpAuthCancelButton.Text = "Cancel";
+            this.httpAuthCancelButton.Text = "取消";
             this.httpAuthCancelButton.UseVisualStyleBackColor = true;
             this.httpAuthCancelButton.Click += new System.EventHandler(this.HttpAuthCancelButton_Click);
             // 
@@ -119,7 +119,7 @@
             this.httpAuthOkButton.Name = "httpAuthOkButton";
             this.httpAuthOkButton.Size = new System.Drawing.Size(75, 23);
             this.httpAuthOkButton.TabIndex = 4;
-            this.httpAuthOkButton.Text = "OK";
+            this.httpAuthOkButton.Text = "确定";
             this.httpAuthOkButton.UseVisualStyleBackColor = true;
             this.httpAuthOkButton.Click += new System.EventHandler(this.HttpAuthOkButton_Click);
             // 
@@ -130,7 +130,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(269, 26);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Password is stored hashed, if you forget it you will need \r\nto set a new one.";
+            this.label1.Text = "密码以哈希方式存储，如果忘记则需要重新设置。";
             // 
             // label2
             // 
@@ -139,8 +139,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(284, 26);
             this.label2.TabIndex = 9;
-            this.label2.Text = "If the web server is running then it will need to be restarted \r\nfor the change t" +
-    "o take effect.";
+            this.label2.Text = "如果 Web 服务器正在运行，则需要重启\r\n才能让更改生效。";
             // 
             // AuthForm
             // 
@@ -161,7 +160,7 @@
             this.Name = "AuthForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Set HTTP Credentials";
+            this.Text = "设置 HTTP 凭据";
             this.Load += new System.EventHandler(this.AuthForm_Load);
             this.credentialsGroupBox.ResumeLayout(false);
             this.credentialsGroupBox.PerformLayout();

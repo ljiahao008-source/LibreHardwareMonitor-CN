@@ -163,7 +163,7 @@ public sealed class StorageDevice : Hardware, ISmart
         if (_storage.IsNVMe)
         {
             // Different name for NVMe
-            AddSensor("Composite Temperature", 0, false, SensorType.Temperature, s => s.Smart.Temperature.GetValueOrDefault());
+            AddSensor("综合温度", 0, false, SensorType.Temperature, s => s.Smart.Temperature.GetValueOrDefault());
 
             TryAddTemperatureSensor(1, false, 1, SmartAttributeType.TemperatureSensor1);
             TryAddTemperatureSensor(2, false, 2, SmartAttributeType.TemperatureSensor2);
@@ -174,55 +174,55 @@ public sealed class StorageDevice : Hardware, ISmart
             TryAddTemperatureSensor(7, false, 7, SmartAttributeType.TemperatureSensor7);
             TryAddTemperatureSensor(8, false, 8, SmartAttributeType.TemperatureSensor8);
 
-            AddSensor("Warning Temperature", 10, false, SensorType.Temperature, s => s.Smart.TemperatureWarning.GetValueOrDefault());
-            AddSensor("Critical Temperature", 11, false, SensorType.Temperature, s => s.Smart.TemperatureCritical.GetValueOrDefault());
+            AddSensor("警告温度", 10, false, SensorType.Temperature, s => s.Smart.TemperatureWarning.GetValueOrDefault());
+            AddSensor("临界温度", 11, false, SensorType.Temperature, s => s.Smart.TemperatureCritical.GetValueOrDefault());
         }
         else
         {
-            AddSensor("Temperature", 0, false, SensorType.Temperature, s => s.Smart.Temperature.GetValueOrDefault());
+            AddSensor("温度", 0, false, SensorType.Temperature, s => s.Smart.Temperature.GetValueOrDefault());
         }
 
         if (_storage.Smart.Life.HasValue)
         {
-            AddSensor("Life", 20, false, SensorType.Level, s => s.Smart.Life.GetValueOrDefault());
+            AddSensor("寿命", 20, false, SensorType.Level, s => s.Smart.Life.GetValueOrDefault());
         }
 
         if (_storage.Smart.HostReads.HasValue)
         {
-            AddSensor("Data Read", 21, false, SensorType.Data, s => s.Smart.HostReads.GetValueOrDefault());
+            AddSensor("读取数据量", 21, false, SensorType.Data, s => s.Smart.HostReads.GetValueOrDefault());
         }
 
         if (_storage.Smart.HostWrites.HasValue)
         {
-            AddSensor("Data Written", 22, false, SensorType.Data, s => s.Smart.HostWrites.GetValueOrDefault());
+            AddSensor("写入数据量", 22, false, SensorType.Data, s => s.Smart.HostWrites.GetValueOrDefault());
         }
 
-        AddSensor("Power On Count", 23, false, SensorType.Factor, s => s.Smart.PowerOnCount);
-        AddSensor("Power On Hours", 24, false, SensorType.Factor, s => Math.Max(s.Smart.MeasuredPowerOnHours, s.Smart.DetectedPowerOnHours));
+        AddSensor("通电次数", 23, false, SensorType.Factor, s => s.Smart.PowerOnCount);
+        AddSensor("通电时间", 24, false, SensorType.Factor, s => Math.Max(s.Smart.MeasuredPowerOnHours, s.Smart.DetectedPowerOnHours));
 
-        _usageSensor = new Sensor("Used Space", 30, SensorType.Load, this, _settings);
-        _freeSpaceSensor = new Sensor("Free Space", 31, SensorType.Data, this, _settings);
+        _usageSensor = new Sensor("已用空间", 30, SensorType.Load, this, _settings);
+        _freeSpaceSensor = new Sensor("可用空间", 31, SensorType.Data, this, _settings);
         ToggleSpaceSensors();
 
-        var totalSpaceSensor = new Sensor("Total Space", 32, SensorType.Data, this, _settings)
+        var totalSpaceSensor = new Sensor("总空间", 32, SensorType.Data, this, _settings)
         {
             Value = (float)DataStorageSizeConverter.ByteToGigabyte(_storage.TotalSize)
         };
         ActivateSensor(totalSpaceSensor);
 
-        _sensorDiskReadActivity = new Sensor("Read Activity", 51, SensorType.Load, this, _settings);
+        _sensorDiskReadActivity = new Sensor("读取活动", 51, SensorType.Load, this, _settings);
         ActivateSensor(_sensorDiskReadActivity);
 
-        _sensorDiskWriteActivity = new Sensor("Write Activity", 52, SensorType.Load, this, _settings);
+        _sensorDiskWriteActivity = new Sensor("写入活动", 52, SensorType.Load, this, _settings);
         ActivateSensor(_sensorDiskWriteActivity);
 
-        _sensorDiskTotalActivity = new Sensor("Total Activity", 53, SensorType.Load, this, _settings);
+        _sensorDiskTotalActivity = new Sensor("总活动", 53, SensorType.Load, this, _settings);
         ActivateSensor(_sensorDiskTotalActivity);
 
-        _sensorDiskReadRate = new Sensor("Read Rate", 54, SensorType.Throughput, this, _settings);
+        _sensorDiskReadRate = new Sensor("读取速率", 54, SensorType.Throughput, this, _settings);
         ActivateSensor(_sensorDiskReadRate);
 
-        _sensorDiskWriteRate = new Sensor("Write Rate", 55, SensorType.Throughput, this, _settings);
+        _sensorDiskWriteRate = new Sensor("写入速率", 55, SensorType.Throughput, this, _settings);
         ActivateSensor(_sensorDiskWriteRate);
 
         AddSmartAttributeSensors();
@@ -233,7 +233,7 @@ public sealed class StorageDevice : Hardware, ISmart
         var attr = GetSmartAttribute(type);
         if (attr != null && attr.Attribute.RawValueULong > 0)
         {
-            AddSensor($"Temperature #{thermalSensorIndex}", index, defaultHidden, SensorType.Temperature, s =>
+            AddSensor($"温度 #{thermalSensorIndex}", index, defaultHidden, SensorType.Temperature, s =>
             {
                 var a = GetSmartAttribute(type);
                 if (a != null)

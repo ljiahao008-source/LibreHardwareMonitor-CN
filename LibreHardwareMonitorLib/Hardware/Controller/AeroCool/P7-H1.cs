@@ -33,7 +33,7 @@ internal sealed class P7H1 : Hardware
 
             for (int i = 0; i < 5; i++)
             {
-                _rpm[i] = new Sensor($"Fan #{i + 1}", i, SensorType.Fan, this, settings);
+                _rpm[i] = new Sensor($"风扇 #{i + 1}", i, SensorType.Fan, this, settings);
                 ActivateSensor(_rpm[i]);
             }
         }

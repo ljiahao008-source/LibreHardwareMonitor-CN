@@ -58,7 +58,7 @@ public class HardwareNode : Node, IExpandPersistNode
             if (properties.Count > 0)
             {
                 StringBuilder stringBuilder = new();
-                stringBuilder.AppendLine("Hardware properties:");
+                stringBuilder.AppendLine("硬件属性：");
                     
                 foreach (KeyValuePair<string, string> property in properties)
                     stringBuilder.AppendFormat(" • {0}: {1}\n", property.Key, property.Value);

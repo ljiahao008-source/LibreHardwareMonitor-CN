@@ -57,7 +57,7 @@ namespace LibreHardwareMonitor.UI
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 2;
-            this.okButton.Text = "OK";
+            this.okButton.Text = "确定";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.OkButton_Click);
             //
@@ -69,7 +69,7 @@ namespace LibreHardwareMonitor.UI
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 3;
-            this.cancelButton.Text = "Cancel";
+            this.cancelButton.Text = "取消";
             this.cancelButton.UseVisualStyleBackColor = true;
             //
             // captionLabel
@@ -124,7 +124,7 @@ namespace LibreHardwareMonitor.UI
             // NameColumn
             //
             this.NameColumn.DataPropertyName = "Name";
-            this.NameColumn.HeaderText = "Name";
+            this.NameColumn.HeaderText = "名称";
             this.NameColumn.Name = "NameColumn";
             this.NameColumn.ReadOnly = true;
             this.NameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -133,14 +133,14 @@ namespace LibreHardwareMonitor.UI
             //
             this.Default.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.Default.DataPropertyName = "Default";
-            this.Default.HeaderText = "Default";
+            this.Default.HeaderText = "默认值";
             this.Default.Name = "Default";
             this.Default.Width = 47;
             //
             // ValueColumn
             //
             this.ValueColumn.DataPropertyName = "Value";
-            this.ValueColumn.HeaderText = "Value";
+            this.ValueColumn.HeaderText = "数值";
             this.ValueColumn.Name = "ValueColumn";
             this.ValueColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             //
@@ -178,7 +178,7 @@ namespace LibreHardwareMonitor.UI
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Parameters";
+            this.Text = "参数";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
             this.ResumeLayout(false);

@@ -171,14 +171,14 @@ public sealed partial class MainForm : Form
         {
             if (PawnIo.PawnIo.Version < new Version(2, 0, 0, 0))
             {
-                DialogResult result = MessageBox.Show("PawnIO is outdated, do you want to update it?", nameof(LibreHardwareMonitor), MessageBoxButtons.OKCancel);
+                DialogResult result = MessageBox.Show("PawnIO 版本过旧，是否更新？", nameof(LibreHardwareMonitor), MessageBoxButtons.OKCancel);
                 if (result == DialogResult.OK)
                     InstallPawnIO();
             }
         }
         else
         {
-            DialogResult result = MessageBox.Show("PawnIO is not installed, do you want to install it?", nameof(LibreHardwareMonitor), MessageBoxButtons.OKCancel);
+            DialogResult result = MessageBox.Show("PawnIO 未安装，是否安装？", nameof(LibreHardwareMonitor), MessageBoxButtons.OKCancel);
             if (result == DialogResult.OK)
                 InstallPawnIO();
         }
@@ -246,8 +246,8 @@ public sealed partial class MainForm : Form
             }
             catch (InvalidOperationException)
             {
-                MessageBox.Show("Updating the auto-startup option failed.",
-                                "Error",
+                MessageBox.Show("更新开机自启动设置失败。",
+                                "错误",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
 
@@ -607,7 +607,7 @@ public sealed partial class MainForm : Form
         if (Theme.SupportsAutoThemeSwitching())
         {
             _autoThemeMenuItem = new ToolStripMenuItem();
-            _autoThemeMenuItem.Text = "Auto";
+            _autoThemeMenuItem.Text = "自动";
             _autoThemeMenuItem.Click += (o, e) =>
             {
                 ClearThemeMenu();
@@ -966,21 +966,21 @@ public sealed partial class MainForm : Form
         }
         catch (UnauthorizedAccessException)
         {
-            MessageBox.Show("Access to the path '" +
+            MessageBox.Show("无法访问路径 '" +
                             fileName +
-                            "' is denied. " +
-                            "The current settings could not be saved.",
-                            "Error",
+                            "'，访问被拒绝。" +
+                            "当前设置无法保存。",
+                            "错误",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
         }
         catch (IOException)
         {
-            MessageBox.Show("The path '" +
+            MessageBox.Show("路径 '" +
                             fileName +
-                            "' is not writeable. " +
-                            "The current settings could not be saved.",
-                            "Error",
+                            "' 不可写。" +
+                            "当前设置无法保存。",
+                            "错误",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
         }
@@ -1080,34 +1080,34 @@ public sealed partial class MainForm : Form
                 treeContextMenu.Items.Clear();
                 if (node.Sensor.Parameters.Count > 0)
                 {
-                    ToolStripItem item = new ToolStripMenuItem("Parameters...");
+                    ToolStripItem item = new ToolStripMenuItem("参数...");
                     item.Click += delegate { ShowParameterForm(node.Sensor); };
                     treeContextMenu.Items.Add(item);
                 }
 
                 if (nodeTextBoxText.EditEnabled)
                 {
-                    ToolStripItem item = new ToolStripMenuItem("Rename");
+                    ToolStripItem item = new ToolStripMenuItem("重命名");
                     item.Click += delegate { nodeTextBoxText.BeginEdit(); };
                     treeContextMenu.Items.Add(item);
                 }
 
                 if (node.IsVisible)
                 {
-                    ToolStripItem item = new ToolStripMenuItem("Hide");
+                    ToolStripItem item = new ToolStripMenuItem("隐藏");
                     item.Click += delegate { node.IsVisible = false; };
                     treeContextMenu.Items.Add(item);
                 }
                 else
                 {
-                    ToolStripItem item = new ToolStripMenuItem("Unhide");
+                    ToolStripItem item = new ToolStripMenuItem("取消隐藏");
                     item.Click += delegate { node.IsVisible = true; };
                     treeContextMenu.Items.Add(item);
                 }
 
                 treeContextMenu.Items.Add(new ToolStripSeparator());
                 {
-                    ToolStripItem item = new ToolStripMenuItem("Pen Color...");
+                    ToolStripItem item = new ToolStripMenuItem("曲线颜色...");
                     item.Click += delegate
                     {
                         ColorDialog dialog = new() { Color = node.PenColor.GetValueOrDefault() };
@@ -1119,14 +1119,14 @@ public sealed partial class MainForm : Form
                 }
 
                 {
-                    ToolStripItem item = new ToolStripMenuItem("Reset Pen Color");
+                    ToolStripItem item = new ToolStripMenuItem("重置曲线颜色");
                     item.Click += delegate { node.PenColor = null; };
                     treeContextMenu.Items.Add(item);
                 }
 
                 treeContextMenu.Items.Add(new ToolStripSeparator());
                 {
-                    ToolStripMenuItem item = new("Show in Tray") { Checked = _systemTray.Contains(node.Sensor) };
+                    ToolStripMenuItem item = new("在托盘中显示") { Checked = _systemTray.Contains(node.Sensor) };
                     item.Click += delegate
                     {
                         if (item.Checked)
@@ -1140,7 +1140,7 @@ public sealed partial class MainForm : Form
 
                 if (_gadget != null)
                 {
-                    ToolStripMenuItem item = new("Show in Gadget") { Checked = _gadget.Contains(node.Sensor) };
+                    ToolStripMenuItem item = new("在小工具中显示") { Checked = _gadget.Contains(node.Sensor) };
                     item.Click += delegate
                     {
                         if (item.Checked)
@@ -1160,11 +1160,11 @@ public sealed partial class MainForm : Form
                 {
                     treeContextMenu.Items.Add(new ToolStripSeparator());
                     IControl control = node.Sensor.Control;
-                    ToolStripMenuItem controlItem = new("Control");
-                    ToolStripItem defaultItem = new ToolStripMenuItem("Default") { Checked = control.ControlMode == ControlMode.Default };
+                    ToolStripMenuItem controlItem = new("控制");
+                    ToolStripItem defaultItem = new ToolStripMenuItem("默认") { Checked = control.ControlMode == ControlMode.Default };
                     controlItem.DropDownItems.Add(defaultItem);
                     defaultItem.Click += delegate { control.SetDefault(); };
-                    ToolStripMenuItem manualItem = new("Manual");
+                    ToolStripMenuItem manualItem = new("手动");
                     controlItem.DropDownItems.Add(manualItem);
                     manualItem.Checked = control.ControlMode == ControlMode.Software;
                     for (int i = 0; i <= 100; i += 5)
@@ -1192,7 +1192,7 @@ public sealed partial class MainForm : Form
 
                 if (nodeTextBoxText.EditEnabled)
                 {
-                    ToolStripItem item = new ToolStripMenuItem("Rename");
+                    ToolStripItem item = new ToolStripMenuItem("重命名");
                     item.Click += delegate { nodeTextBoxText.BeginEdit(); };
                     treeContextMenu.Items.Add(item);
                 }

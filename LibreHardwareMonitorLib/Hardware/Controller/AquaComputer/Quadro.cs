@@ -33,43 +33,43 @@ internal sealed class Quadro : Hardware
             // Initialize the 4 temperature sensors
             for (int i = 0; i < 4; i++)
             {
-                _temperatures[i] = new Sensor($"Temperature #{i + 1}", i, SensorType.Temperature, this, Array.Empty<ParameterDescription>(), settings);
+                _temperatures[i] = new Sensor($"温度 #{i + 1}", i, SensorType.Temperature, this, Array.Empty<ParameterDescription>(), settings);
                 ActivateSensor(_temperatures[i]);
             }
 
             // Initialize the input voltage sensor
-            _voltages[0] = new Sensor("Input", 0, SensorType.Voltage, this, Array.Empty<ParameterDescription>(), settings);
+            _voltages[0] = new Sensor("输入电压", 0, SensorType.Voltage, this, Array.Empty<ParameterDescription>(), settings);
             ActivateSensor(_voltages[0]);
 
             // Initialize the flow sensor
-            _flows[0] = new Sensor("Flow", 0, SensorType.Flow, this, Array.Empty<ParameterDescription>(), settings);
+            _flows[0] = new Sensor("流量", 0, SensorType.Flow, this, Array.Empty<ParameterDescription>(), settings);
             ActivateSensor(_flows[0]);
 
             // Initialize the 4 fan voltage sensors
             for (int i = 1; i < 5; i++)
             {
-                _voltages[i] = new Sensor($"Fan #{i}", i, SensorType.Voltage, this, Array.Empty<ParameterDescription>(), settings);
+                _voltages[i] = new Sensor($"风扇 #{i}", i, SensorType.Voltage, this, Array.Empty<ParameterDescription>(), settings);
                 ActivateSensor(_voltages[i]);
             }
 
             // Initialize the 4 fan current sensors
             for (int i = 0; i < 4; i++)
             {
-                _currents[i] = new Sensor($"Fan #{i + 1}", i, SensorType.Current, this, Array.Empty<ParameterDescription>(), settings);
+                _currents[i] = new Sensor($"风扇 #{i + 1}", i, SensorType.Current, this, Array.Empty<ParameterDescription>(), settings);
                 ActivateSensor(_currents[i]);
             }
 
             // Initialize the 4 fan power sensors
             for (int i = 0; i < 4; i++)
             {
-                _powers[i] = new Sensor($"Fan #{i + 1}", i, SensorType.Power, this, Array.Empty<ParameterDescription>(), settings);
+                _powers[i] = new Sensor($"风扇 #{i + 1}", i, SensorType.Power, this, Array.Empty<ParameterDescription>(), settings);
                 ActivateSensor(_powers[i]);
             }
 
             // Initialize the 4 fan speed sensors
             for (int i = 0; i < 4; i++)
             {
-                _rpmSensors[i] = new Sensor($"Fan #{i + 1}", i, SensorType.Fan, this, Array.Empty<ParameterDescription>(), settings);
+                _rpmSensors[i] = new Sensor($"风扇 #{i + 1}", i, SensorType.Fan, this, Array.Empty<ParameterDescription>(), settings);
                 ActivateSensor(_rpmSensors[i]);
             }
 

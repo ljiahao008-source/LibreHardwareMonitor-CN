@@ -424,9 +424,9 @@ public class HttpServer
 
         if (context.Response.StatusCode == 401)
         {
-            const string responseString = @"<HTML><HEAD><TITLE>401 Unauthorized</TITLE></HEAD>
-  <BODY><H4>401 Unauthorized</H4>
-  Authorization required.</BODY></HTML> ";
+            const string responseString = @"<HTML><HEAD><TITLE>401 未授权</TITLE></HEAD>
+  <BODY><H4>401 未授权</H4>
+  需要身份验证。</BODY></HTML> ";
 
             await SendResponseAsync(context.Response, responseString, "text/html");
         }

@@ -36,8 +36,8 @@ public static class Program
         string path = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar;
         if (!File.Exists(path + fileName))
         {
-            MessageBox.Show("The following file could not be found: " + fileName +
-                            "\nPlease extract all files from the archive.", "Error",
+            MessageBox.Show("找不到以下文件：" + fileName +
+                            "\n请解压压缩包中的全部文件。", "错误",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
             return false;
         }

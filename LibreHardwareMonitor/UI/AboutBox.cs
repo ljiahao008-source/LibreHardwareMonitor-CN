@@ -17,7 +17,7 @@ public sealed partial class AboutBox : Form
     {
         InitializeComponent();
         Font = SystemFonts.MessageBoxFont;
-        label3.Text = "Version " + Application.ProductVersion;
+        label3.Text = "版本 " + Application.ProductVersion;
         projectLinkLabel.Links.Remove(projectLinkLabel.Links[0]);
         projectLinkLabel.Links.Add(0, projectLinkLabel.Text.Length, "https://github.com/LibreHardwareMonitor/LibreHardwareMonitor");
         licenseLinkLabel.Links.Remove(licenseLinkLabel.Links[0]);

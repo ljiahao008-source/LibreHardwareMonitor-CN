@@ -32,14 +32,14 @@ public class SystemTray : IDisposable
         _mainIcon = new NotifyIconAdv();
 
         ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
-        ToolStripItem hideShowItem = new ToolStripMenuItem("Hide/Show");
+        ToolStripItem hideShowItem = new ToolStripMenuItem("隐藏/显示");
         hideShowItem.Click += delegate
         {
             SendHideShowCommand();
         };
         contextMenuStrip.Items.Add(hideShowItem);
         contextMenuStrip.Items.Add(new ToolStripSeparator());
-        ToolStripItem exitItem = new ToolStripMenuItem("Exit");
+        ToolStripItem exitItem = new ToolStripMenuItem("退出");
         exitItem.Click += delegate
         {
             SendExitCommand();
@@ -51,7 +51,7 @@ public class SystemTray : IDisposable
             SendHideShowCommand();
         };
         _mainIcon.Icon = EmbeddedResources.GetIcon("smallicon.ico");
-        _mainIcon.Text = "Libre Hardware Monitor";
+        _mainIcon.Text = "Libre 硬件监视器";
     }
 
     private void HardwareRemoved(IHardware hardware)

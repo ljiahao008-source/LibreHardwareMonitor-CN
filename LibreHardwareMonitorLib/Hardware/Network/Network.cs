@@ -24,15 +24,15 @@ internal sealed class Network : Hardware
         : base(networkInterface.Name, new Identifier("nic", networkInterface.Id), settings)
     {
         NetworkInterface = networkInterface;
-        _dataUploaded = new Sensor("Data Uploaded", 2, SensorType.Data, this, settings);
+        _dataUploaded = new Sensor("已上传数据", 2, SensorType.Data, this, settings);
         ActivateSensor(_dataUploaded);
-        _dataDownloaded = new Sensor("Data Downloaded", 3, SensorType.Data, this, settings);
+        _dataDownloaded = new Sensor("已下载数据", 3, SensorType.Data, this, settings);
         ActivateSensor(_dataDownloaded);
-        _uploadSpeed = new Sensor("Upload Speed", 7, SensorType.Throughput, this, settings);
+        _uploadSpeed = new Sensor("上传速度", 7, SensorType.Throughput, this, settings);
         ActivateSensor(_uploadSpeed);
-        _downloadSpeed = new Sensor("Download Speed", 8, SensorType.Throughput, this, settings);
+        _downloadSpeed = new Sensor("下载速度", 8, SensorType.Throughput, this, settings);
         ActivateSensor(_downloadSpeed);
-        _networkUtilization = new Sensor("Network Utilization", 1, SensorType.Load, this, settings);
+        _networkUtilization = new Sensor("网络利用率", 1, SensorType.Load, this, settings);
         ActivateSensor(_networkUtilization);
         _bytesUploaded = NetworkInterface.GetIPStatistics().BytesSent;
         _bytesDownloaded = NetworkInterface.GetIPStatistics().BytesReceived;

@@ -90,35 +90,35 @@ internal sealed class IntelDiscreteGpu : GenericGpu
         _d3dDeviceId = GetD3DDeviceId();
 
         // Initialize temperature sensors
-        _temperatureGpuCore = new Sensor("GPU Core", 0, SensorType.Temperature, this, settings);
-        _temperatureMemory = new Sensor("GPU Memory", 1, SensorType.Temperature, this, settings);
+        _temperatureGpuCore = new Sensor("GPU 核心", 0, SensorType.Temperature, this, settings);
+        _temperatureMemory = new Sensor("GPU 显存", 1, SensorType.Temperature, this, settings);
 
         // Initialize clock sensors
-        _clockCore = new Sensor("GPU Core", 0, SensorType.Clock, this, settings);
-        _clockMemory = new Sensor("GPU Memory", 1, SensorType.Clock, this, settings);
+        _clockCore = new Sensor("GPU 核心", 0, SensorType.Clock, this, settings);
+        _clockMemory = new Sensor("GPU 显存", 1, SensorType.Clock, this, settings);
 
         // Initialize voltage sensors
-        _voltageCore = new Sensor("GPU Core", 0, SensorType.Voltage, this, settings);
-        _voltageMemory = new Sensor("GPU Memory", 1, SensorType.Voltage, this, settings);
+        _voltageCore = new Sensor("GPU 核心", 0, SensorType.Voltage, this, settings);
+        _voltageMemory = new Sensor("GPU 显存", 1, SensorType.Voltage, this, settings);
 
         // Initialize power sensors
-        _powerGpu = new Sensor("GPU Package", 0, SensorType.Power, this, settings);
-        _powerTotal = new Sensor("GPU Total", 1, SensorType.Power, this, settings);
+        _powerGpu = new Sensor("GPU 封装功耗", 0, SensorType.Power, this, settings);
+        _powerTotal = new Sensor("GPU 总功耗", 1, SensorType.Power, this, settings);
 
         // Initialize utilization sensors
-        _loadGlobalActivity = new Sensor("GPU Core", 0, SensorType.Load, this, settings);
-        _loadRenderCompute = new Sensor("GPU Render/Compute", 1, SensorType.Load, this, settings);
-        _loadMedia = new Sensor("GPU Media", 2, SensorType.Load, this, settings);
+        _loadGlobalActivity = new Sensor("GPU 核心", 0, SensorType.Load, this, settings);
+        _loadRenderCompute = new Sensor("GPU 渲染/计算占用", 1, SensorType.Load, this, settings);
+        _loadMedia = new Sensor("GPU 媒体引擎占用", 2, SensorType.Load, this, settings);
 
         // Initialize memory sensors
-        _memoryFree = new Sensor("GPU Memory Free", 0, SensorType.SmallData, this, settings);
-        _memoryUsed = new Sensor("GPU Memory Used", 1, SensorType.SmallData, this, settings);
-        _memoryTotal = new Sensor("GPU Memory Total", 2, SensorType.SmallData, this, settings);
-        _memoryLoad = new Sensor("GPU Memory", 3, SensorType.Load, this, settings);
+        _memoryFree = new Sensor("GPU 显存可用", 0, SensorType.SmallData, this, settings);
+        _memoryUsed = new Sensor("GPU 显存已用", 1, SensorType.SmallData, this, settings);
+        _memoryTotal = new Sensor("GPU 显存总计", 2, SensorType.SmallData, this, settings);
+        _memoryLoad = new Sensor("GPU 显存", 3, SensorType.Load, this, settings);
 
         // Initialize bandwidth sensors
-        _memoryBandwidthRead = new Sensor("GPU Memory Read", 0, SensorType.Throughput, this, settings);
-        _memoryBandwidthWrite = new Sensor("GPU Memory Write", 1, SensorType.Throughput, this, settings);
+        _memoryBandwidthRead = new Sensor("GPU 显存读取", 0, SensorType.Throughput, this, settings);
+        _memoryBandwidthWrite = new Sensor("GPU 显存写入", 1, SensorType.Throughput, this, settings);
 
         // Initialize fan sensors based on available fans
         int fanCount = (int)GetFanCount();

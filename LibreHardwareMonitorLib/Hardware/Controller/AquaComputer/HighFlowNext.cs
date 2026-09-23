@@ -29,40 +29,40 @@ internal sealed class HighFlowNext : Hardware
 
             FirmwareVersion = ReadUInt16BE(_rawData, 13);
 
-            _temperatures[0] = new Sensor("Water Temperature", 0, SensorType.Temperature, this, settings);
+            _temperatures[0] = new Sensor("水温", 0, SensorType.Temperature, this, settings);
             ActivateSensor(_temperatures[0]);
 
-            _temperatures[1] = new Sensor("External Temperature", 1, SensorType.Temperature, this, settings);
+            _temperatures[1] = new Sensor("外部温度", 1, SensorType.Temperature, this, settings);
             ActivateSensor(_temperatures[1]);
 
-            _flows[0] = new Sensor("Flow", 0, SensorType.Flow, this, settings);
+            _flows[0] = new Sensor("流量", 0, SensorType.Flow, this, settings);
             ActivateSensor(_flows[0]);
 
-            _levels[0] = new Sensor("Water Quality", 0, SensorType.Level, this, settings);
+            _levels[0] = new Sensor("水质", 0, SensorType.Level, this, settings);
             ActivateSensor(_levels[0]);
 
-            _powers[0] = new Sensor("Dissipated Power", 0, SensorType.Power, this, settings);
+            _powers[0] = new Sensor("散热功耗", 0, SensorType.Power, this, settings);
             ActivateSensor(_powers[0]);
 
-            _conductivities[0] = new Sensor("Conductivity", 0, SensorType.Conductivity, this, settings);
+            _conductivities[0] = new Sensor("电导率", 0, SensorType.Conductivity, this, settings);
             ActivateSensor(_conductivities[0]);
 
-            _voltages[0] = new Sensor("VCC", 0, SensorType.Voltage, this, settings);
+            _voltages[0] = new Sensor("VCC 电压", 0, SensorType.Voltage, this, settings);
             ActivateSensor(_voltages[0]);
 
-            _voltages[1] = new Sensor("VCC USB", 1, SensorType.Voltage, this, settings);
+            _voltages[1] = new Sensor("VCC USB 电压", 1, SensorType.Voltage, this, settings);
             ActivateSensor(_voltages[1]);
 
-            _alarms[0] = new Sensor("Flow Alarm", 0, true, SensorType.Factor, this, null, settings);
+            _alarms[0] = new Sensor("流量报警", 0, true, SensorType.Factor, this, null, settings);
             ActivateSensor(_alarms[0]);
 
-            _alarms[1] = new Sensor("Water Temperature Alarm", 1, true, SensorType.Factor, this, null, settings);
+            _alarms[1] = new Sensor("水温报警", 1, true, SensorType.Factor, this, null, settings);
             ActivateSensor(_alarms[0]);
 
-            _alarms[2] = new Sensor("External Temperature Alarm", 2, true, SensorType.Factor, this, null, settings);
+            _alarms[2] = new Sensor("外部温度报警", 2, true, SensorType.Factor, this, null, settings);
             ActivateSensor(_alarms[0]);
 
-            _alarms[3] = new Sensor("Water Quality Alarm", 3, true, SensorType.Factor, this, null, settings);
+            _alarms[3] = new Sensor("水质报警", 3, true, SensorType.Factor, this, null, settings);
             ActivateSensor(_alarms[0]);
         }
     }

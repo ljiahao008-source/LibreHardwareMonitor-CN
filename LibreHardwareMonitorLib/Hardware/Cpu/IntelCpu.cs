@@ -356,11 +356,11 @@ internal sealed class IntelCpu : GenericCpu
         //is only available when the cpu has more than 1 core
         if (cpuId[0][0].Data.GetLength(0) > 6 && (cpuId[0][0].Data[6, 0] & 0x40) != 0 && _microArchitecture != MicroArchitecture.Unknown && _coreCount > 1)
         {
-            _coreMax = new Sensor("Core Max", coreSensorId, SensorType.Temperature, this, settings);
+            _coreMax = new Sensor("核心最高温度", coreSensorId, SensorType.Temperature, this, settings);
             ActivateSensor(_coreMax);
             coreSensorId++;
 
-            _coreAvg = new Sensor("Core Average", coreSensorId, SensorType.Temperature, this, settings);
+            _coreAvg = new Sensor("核心平均温度", coreSensorId, SensorType.Temperature, this, settings);
             ActivateSensor(_coreAvg);
             coreSensorId++;
         }
@@ -398,7 +398,7 @@ internal sealed class IntelCpu : GenericCpu
         // check if processor supports a digital thermal sensor at package level
         if (cpuId[0][0].Data.GetLength(0) > 6 && (cpuId[0][0].Data[6, 0] & 0x40) != 0 && _microArchitecture != MicroArchitecture.Unknown)
         {
-            _packageTemperature = new Sensor("CPU Package",
+            _packageTemperature = new Sensor("CPU 封装温度",
                                              coreSensorId,
                                              SensorType.Temperature,
                                              this,
@@ -428,7 +428,7 @@ internal sealed class IntelCpu : GenericCpu
             _distToTjMaxTemperatures = [];
         }
 
-        _busClock = new Sensor("Bus Speed", 0, SensorType.Clock, this, settings);
+        _busClock = new Sensor("总线速度", 0, SensorType.Clock, this, settings);
         _coreClocks = new Sensor[_coreCount];
         for (int i = 0; i < _coreClocks.Length; i++)
         {
@@ -477,7 +477,7 @@ internal sealed class IntelCpu : GenericCpu
 
             if (EnergyUnitsMultiplier != 0)
             {
-                string[] powerSensorLabels = ["CPU Package", "CPU Cores", "CPU Graphics", "CPU Memory", "CPU Platform"];
+                string[] powerSensorLabels = ["CPU 封装功耗", "CPU 核心功耗", "CPU 核显功耗", "CPU 内存功耗", "CPU 平台功耗"];
 
                 for (int i = 0; i < _energyStatusMsrs.Length; i++)
                 {
@@ -503,7 +503,7 @@ internal sealed class IntelCpu : GenericCpu
 
         if (_pawnModule.ReadMsr(IA32_PERF_STATUS, out eax, out uint _) && ((eax >> 32) & 0xFFFF) > 0)
         {
-            _coreVoltage = new Sensor("CPU Core", 0, SensorType.Voltage, this, settings);
+            _coreVoltage = new Sensor("CPU 核心电压", 0, SensorType.Voltage, this, settings);
             ActivateSensor(_coreVoltage);
         }
 

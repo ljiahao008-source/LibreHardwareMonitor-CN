@@ -465,7 +465,7 @@ public abstract class EmbeddedController : Hardware
 
     private readonly IReadOnlyList<EmbeddedControllerSource> _sources;
 
-    protected EmbeddedController(IEnumerable<EmbeddedControllerSource> sources, ISettings settings) : base("Embedded Controller", new Identifier("lpc", "ec"), settings)
+    protected EmbeddedController(IEnumerable<EmbeddedControllerSource> sources, ISettings settings) : base("嵌入式控制器", new Identifier("lpc", "ec"), settings)
     {
         // sorting by address, which implies sorting by bank, for optimized EC access
         var sourcesList = sources.ToList();

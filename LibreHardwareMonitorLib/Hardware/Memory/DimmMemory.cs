@@ -30,7 +30,7 @@ internal sealed class DimmMemory : Hardware
                 case SPDMemoryType.SPD_LPDDR4X_SDRAM:
                 case SPDMemoryType.SPD_DDR5_SDRAM:
                 case SPDMemoryType.SPD_LPDDR5_SDRAM:
-                    _thermalSensor = new SpdThermalSensor($"DIMM #{accessor.Index}",
+                    _thermalSensor = new SpdThermalSensor($"内存条 #{accessor.Index}",
                                                           0,
                                                           SensorType.Temperature,
                                                           this,
@@ -74,33 +74,33 @@ internal sealed class DimmMemory : Hardware
         if (hasThermalSensor)
         {
             //Temperature Resolution (fixed value)
-            AddSensor("Temperature Sensor Resolution", 1, false, SensorType.Temperature, accessor.TemperatureResolution);
-            AddSensor("Thermal Sensor Low Limit", 2, false, SensorType.Temperature, accessor.ThermalSensorLowLimit);
-            AddSensor("Thermal Sensor High Limit", 3, false, SensorType.Temperature, accessor.ThermalSensorHighLimit);
-            AddSensor("Thermal Sensor Critical Limit", 4, false, SensorType.Temperature, accessor.ThermalSensorCriticalLimit);
+            AddSensor("温度传感器分辨率", 1, false, SensorType.Temperature, accessor.TemperatureResolution);
+            AddSensor("温度传感器下限", 2, false, SensorType.Temperature, accessor.ThermalSensorLowLimit);
+            AddSensor("温度传感器上限", 3, false, SensorType.Temperature, accessor.ThermalSensorHighLimit);
+            AddSensor("温度传感器临界值", 4, false, SensorType.Temperature, accessor.ThermalSensorCriticalLimit);
         }
 
         //Timings
-        AddSensor("tCKAVGmin (Minimum Cycle Time)", 20, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCycleTime);
-        AddSensor("tCKAVGmax (Maximum Cycle Time)", 21, false, SensorType.Timing, (float)accessor.SDRAMTimings.MaximumCycleTime);
-        AddSensor("tAA (CAS Latency Time)", 22, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCASLatencyTime);
-        AddSensor("tRCD (RAS to CAS Delay Time)", 23, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRASToCASDelayTime);
-        AddSensor("tRP (Row Precharge Delay Time)", 24, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRowPrechargeDelayTime);
-        AddSensor("tRAS (Active to Precharge Delay Time)", 25, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActiveToPrechargeDelayTime);
-        AddSensor("tRC (Active to Active/Refresh Delay Time)", 26, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActiveToActiveRefreshDelayTime);
-        AddSensor("tRFC1 (Refresh Recovery Delay Time)", 27, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRefreshRecoveryDelayTime1);
-        AddSensor("tRFC2 (Refresh Recovery Delay Time)", 28, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRefreshRecoveryDelayTime2);
-        AddSensor("tRFC4 (Refresh Recovery Delay Time)", 29, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRefreshRecoveryDelayTime4);
-        AddSensor("tFAW (Four Activate Window Time)", 30, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumFourActivateWindowTime);
-        AddSensor("tRRD_S (Activate to Activate Delay Time)", 31, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActivateToActivateDelay_DiffGroup);
-        AddSensor("tRRD_L (Activate to Activate Delay Time)", 32, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActivateToActivateDelay_SameGroup);
-        AddSensor("tCCD_L (CAS to CAS Delay Time)", 33, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCASToCASDelay_SameGroup);
-        AddSensor("tWR (Write Recovery Time)", 34, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumWriteRecoveryTime);
-        AddSensor("tWTR_S (Write to Read Time)", 35, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumWriteToReadTime_DiffGroup);
-        AddSensor("tWTR_L (Write to Read Time)", 36, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumWriteToReadTime_SameGroup);
+        AddSensor("tCKAVGmin (最小时钟周期)", 20, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCycleTime);
+        AddSensor("tCKAVGmax (最大时钟周期)", 21, false, SensorType.Timing, (float)accessor.SDRAMTimings.MaximumCycleTime);
+        AddSensor("tAA (CAS 延迟时间)", 22, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCASLatencyTime);
+        AddSensor("tRCD (RAS 到 CAS 延迟时间)", 23, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRASToCASDelayTime);
+        AddSensor("tRP (行预充电延迟时间)", 24, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRowPrechargeDelayTime);
+        AddSensor("tRAS (激活到预充电延迟时间)", 25, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActiveToPrechargeDelayTime);
+        AddSensor("tRC (激活到激活/刷新延迟时间)", 26, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActiveToActiveRefreshDelayTime);
+        AddSensor("tRFC1 (刷新恢复延迟时间)", 27, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRefreshRecoveryDelayTime1);
+        AddSensor("tRFC2 (刷新恢复延迟时间)", 28, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRefreshRecoveryDelayTime2);
+        AddSensor("tRFC4 (刷新恢复延迟时间)", 29, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRefreshRecoveryDelayTime4);
+        AddSensor("tFAW (四激活窗口时间)", 30, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumFourActivateWindowTime);
+        AddSensor("tRRD_S (激活到激活延迟时间)", 31, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActivateToActivateDelay_DiffGroup);
+        AddSensor("tRRD_L (激活到激活延迟时间)", 32, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActivateToActivateDelay_SameGroup);
+        AddSensor("tCCD_L (CAS 到 CAS 延迟时间)", 33, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCASToCASDelay_SameGroup);
+        AddSensor("tWR (写恢复时间)", 34, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumWriteRecoveryTime);
+        AddSensor("tWTR_S (写到读时间)", 35, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumWriteToReadTime_DiffGroup);
+        AddSensor("tWTR_L (写到读时间)", 36, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumWriteToReadTime_SameGroup);
 
         //Data
-        AddSensor("Capacity", 50, false, SensorType.Data, accessor.GetCapacity());
+        AddSensor("容量", 50, false, SensorType.Data, accessor.GetCapacity());
     }
 
     private void CreateSensorsDDR5(DDR5Accessor accessor, bool hasThermalSensor)
@@ -108,31 +108,31 @@ internal sealed class DimmMemory : Hardware
         if (hasThermalSensor)
         {
             //Temperature Resolution (fixed value)
-            AddSensor("Temperature Sensor Resolution", 1, false, SensorType.Temperature, accessor.TemperatureResolution);
-            AddSensor("Thermal Sensor Low Limit", 2, false, SensorType.Temperature, accessor.ThermalSensorLowLimit);
-            AddSensor("Thermal Sensor High Limit", 3, false, SensorType.Temperature, accessor.ThermalSensorHighLimit);
-            AddSensor("Thermal Sensor Critical Low Limit", 4, false, SensorType.Temperature, accessor.ThermalSensorCriticalLowLimit);
-            AddSensor("Thermal Sensor Critical High Limit", 5, false, SensorType.Temperature, accessor.ThermalSensorCriticalHighLimit);
+            AddSensor("温度传感器分辨率", 1, false, SensorType.Temperature, accessor.TemperatureResolution);
+            AddSensor("温度传感器下限", 2, false, SensorType.Temperature, accessor.ThermalSensorLowLimit);
+            AddSensor("温度传感器上限", 3, false, SensorType.Temperature, accessor.ThermalSensorHighLimit);
+            AddSensor("温度传感器临界下限", 4, false, SensorType.Temperature, accessor.ThermalSensorCriticalLowLimit);
+            AddSensor("温度传感器临界上限", 5, false, SensorType.Temperature, accessor.ThermalSensorCriticalHighLimit);
         }
 
         //Timings
-        AddSensor("tCKAVGmin (Minimum Cycle Time)", 20, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCycleTime);
-        AddSensor("tCKAVGmax (Maximum Cycle Time)", 21, false, SensorType.Timing, (float)accessor.SDRAMTimings.MaximumCycleTime);
-        AddSensor("tAA (CAS Latency Time)", 22, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCASLatencyTime);
-        AddSensor("tRCD (RAS to CAS Delay Time)", 23, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRASToCASDelayTime);
-        AddSensor("tRP (Row Precharge Delay Time)", 24, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRowPrechargeDelayTime);
-        AddSensor("tRAS (Active to Precharge Delay Time)", 25, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActiveToPrechargeDelayTime);
-        AddSensor("tRC (Active to Active/Refresh Delay Time)", 26, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActiveToActiveRefreshDelayTime);
-        AddSensor("tWR (Write Recovery Time)", 27, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumWriteRecoveryTime);
-        AddSensor("tRFC1 (Normal Refresh Recovery Time)", 28, false, SensorType.Timing, (float)accessor.SDRAMTimings.NormalRefreshRecoveryTime);
-        AddSensor("tRFC2 (Fine Granularity Refresh Recovery Time)", 29, false, SensorType.Timing, (float)accessor.SDRAMTimings.FineGranularityRefreshRecoveryTime);
-        AddSensor("tRFCsb (Same Bank Refresh Recovery Time)", 30, false, SensorType.Timing, (float)accessor.SDRAMTimings.SameBankRefreshRecoveryTime);
-        AddSensor("tRFC1_dlr (Normal Refresh Recovery Time 3DS)", 31, false, SensorType.Timing, (float)accessor.SDRAMTimings.NormalRefreshRecoveryTime_3DSDifferentLogicalRank);
-        AddSensor("tRFC2_dlr (Fine Granularity Refresh Recovery Time 3DS)", 32, false, SensorType.Timing, (float)accessor.SDRAMTimings.FineGranularityRefreshRecoveryTime_3DSDifferentLogicalRank);
-        AddSensor("tRFCsb_dlr (Same Bank Refresh Recovery Time 3DS)", 33, false, SensorType.Timing, (float)accessor.SDRAMTimings.SameBankRefreshRecoveryTime_3DSDifferentLogicalRank);
+        AddSensor("tCKAVGmin (最小时钟周期)", 20, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCycleTime);
+        AddSensor("tCKAVGmax (最大时钟周期)", 21, false, SensorType.Timing, (float)accessor.SDRAMTimings.MaximumCycleTime);
+        AddSensor("tAA (CAS 延迟时间)", 22, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumCASLatencyTime);
+        AddSensor("tRCD (RAS 到 CAS 延迟时间)", 23, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRASToCASDelayTime);
+        AddSensor("tRP (行预充电延迟时间)", 24, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumRowPrechargeDelayTime);
+        AddSensor("tRAS (激活到预充电延迟时间)", 25, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActiveToPrechargeDelayTime);
+        AddSensor("tRC (激活到激活/刷新延迟时间)", 26, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumActiveToActiveRefreshDelayTime);
+        AddSensor("tWR (写恢复时间)", 27, false, SensorType.Timing, (float)accessor.SDRAMTimings.MinimumWriteRecoveryTime);
+        AddSensor("tRFC1 (普通刷新恢复时间)", 28, false, SensorType.Timing, (float)accessor.SDRAMTimings.NormalRefreshRecoveryTime);
+        AddSensor("tRFC2 (精细粒度刷新恢复时间)", 29, false, SensorType.Timing, (float)accessor.SDRAMTimings.FineGranularityRefreshRecoveryTime);
+        AddSensor("tRFCsb (同 Bank 刷新恢复时间)", 30, false, SensorType.Timing, (float)accessor.SDRAMTimings.SameBankRefreshRecoveryTime);
+        AddSensor("tRFC1_dlr (普通刷新恢复时间 3DS)", 31, false, SensorType.Timing, (float)accessor.SDRAMTimings.NormalRefreshRecoveryTime_3DSDifferentLogicalRank);
+        AddSensor("tRFC2_dlr (精细粒度刷新恢复时间 3DS)", 32, false, SensorType.Timing, (float)accessor.SDRAMTimings.FineGranularityRefreshRecoveryTime_3DSDifferentLogicalRank);
+        AddSensor("tRFCsb_dlr (同 Bank 刷新恢复时间 3DS)", 33, false, SensorType.Timing, (float)accessor.SDRAMTimings.SameBankRefreshRecoveryTime_3DSDifferentLogicalRank);
 
         //Data
-        AddSensor("Capacity", 50, false, SensorType.Data, accessor.GetCapacity());
+        AddSensor("容量", 50, false, SensorType.Data, accessor.GetCapacity());
     }
 
     private void AddSensor(string name, int index, bool defaultHidden, SensorType sensorType, float value)

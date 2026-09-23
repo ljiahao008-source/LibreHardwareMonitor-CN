@@ -12,22 +12,25 @@ namespace LibreHardwareMonitor.Hardware.AcpiWmi;
 
 /// <summary>
 /// 发现私有 ACPI WMI 风扇接口（"PowerSwitchInterface" / "Ip3PowerSwitch"，root\WMI 命名空间），
-/// 并为找到的实例创建 <see cref="AcpiWmiHardware" />。读取实例需要管理员权限，
-/// 无权限或本机没有该类时静默跳过，不产生任何硬件。
+/// 并为找到的实例创建 <see cref="AcpiWmiHardware" />。读取实例需要管理员权限。
+/// 本机不存在该类或无权限时不产生任何硬件，失败原因记录在 <see cref="GetReport" /> 中。
 /// </summary>
 internal sealed class AcpiWmiGroup : IGroup
 {
     private const string WmiNamespace = @"\\.\root\WMI";
     private const string WmiClassName = "PowerSwitchInterface";
-    private const string WmiInstanceName = @"ACPI\PNP0C14\IP3POWERSWITCH_0";
 
     private readonly List<AcpiWmiHardware> _hardware = [];
+    private readonly string _diagnostic = "未初始化";
 
     public AcpiWmiGroup(ISettings settings)
     {
         // 该通道是 Windows 专有的 WMI 接口，其他平台直接跳过。
         if (Software.OperatingSystem.IsUnix)
+        {
+            _diagnostic = "非 Windows 平台，已跳过。";
             return;
+        }
 
         try
         {
@@ -41,21 +44,27 @@ internal sealed class AcpiWmiGroup : IGroup
             ManagementScope scope = new(WmiNamespace, options);
             scope.Connect();
 
-            // 1) 先做类存在性检查（GetObject on class，不枚举实例）。
+            // 先做类存在性检查（取类对象，不枚举实例）。
             ManagementClass wmiClass = new(scope, new ManagementPath(WmiClassName), null);
             wmiClass.Get();
 
-            // 2) 取实例名：优先枚举；System.Management 对动态 ACPI 类可能枚举不到实例，
-            //    此时回退到该类已知的固定实例名。
+            // 枚举实例名。System.Management 对动态 ACPI 类有时枚举不到实例；
+            // 此时不做任何猜测 —— 早期版本用固定实例名兜底，但那只对特定机型成立。
             string instanceName = EnumerateInstanceName(scope);
             if (string.IsNullOrEmpty(instanceName))
-                instanceName = WmiInstanceName;
+            {
+                _diagnostic = "WMI 类存在，但未枚举到实例（InstanceName 为空），未创建硬件。";
+                return;
+            }
 
             _hardware.Add(new AcpiWmiHardware(instanceName, settings));
+            _diagnostic = "正常，实例: " + instanceName;
         }
-        catch
+        catch (Exception e)
         {
-            // 未以管理员运行（WBEM_E_ACCESS_DENIED 0x80041003）或本机不存在该类：静默跳过。
+            // 未以管理员运行（WBEM_E_ACCESS_DENIED 0x80041003）或本机不存在该类。
+            // 不静默丢弃：原因记入诊断信息，可在「文件 → 保存报告」中查看。
+            _diagnostic = "初始化失败: " + e.Message;
         }
     }
 
@@ -86,12 +95,14 @@ internal sealed class AcpiWmiGroup : IGroup
     public string GetReport()
     {
         StringBuilder reportBuilder = new();
-        uint count = 1;
+        reportBuilder.AppendLine("ACPI WMI 私有风扇通道:");
+        reportBuilder.Append(" 状态: ").AppendLine(_diagnostic);
 
+        uint count = 1;
         foreach (AcpiWmiHardware hardware in _hardware)
         {
-            reportBuilder.Append("ACPI WMI #").Append(count).AppendLine(":")
-                         .Append(" Name: ").AppendLine(hardware.Name);
+            reportBuilder.Append(" 硬件 #").Append(count).AppendLine(":")
+                         .Append("  名称: ").AppendLine(hardware.Name);
             count++;
         }
 

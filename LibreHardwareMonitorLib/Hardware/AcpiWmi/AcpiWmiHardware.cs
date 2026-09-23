@@ -24,12 +24,17 @@ internal sealed class AcpiWmiHardware : Hardware
     private readonly string _instanceName;
     private ManagementObject _wmiObject;
     private ManagementScope _scope;
+    private string _lastError;
 
     public AcpiWmiHardware(string instanceName, ISettings settings) :
-        base("ACPI WMI Fan", new Identifier("acpiwmi", "ip3powerswitch"), settings)
+        base("ACPI WMI 风扇", new Identifier("acpiwmi", "ip3powerswitch"), settings)
     {
         _instanceName = instanceName;
-        _fan = new Sensor("Fan #1", 0, SensorType.Fan, this, settings);
+        _fan = new Sensor("风扇 #1", 0, SensorType.Fan, this, settings);
+
+        // 必须在构造函数中激活：MainForm 设置「传感器数值时间窗口」时只遍历已激活的传感器，
+        // 若此处不激活，风扇将拿不到时间窗口，导致数值正常但曲线无历史数据。
+        ActivateSensor(_fan);
     }
 
     /// <inheritdoc />
@@ -40,17 +45,17 @@ internal sealed class AcpiWmiHardware : Hardware
     {
         try
         {
-            float rpm = ReadFanSpeed();
-            _fan.Value = rpm;
-            ActivateSensor(_fan);
+            _fan.Value = ReadFanSpeed();
+            _lastError = null;
         }
-        catch
+        catch (Exception e)
         {
-            // 读取失败（权限被回收、实例消失等）时丢弃本次读数，并释放连接以便下次重连。
+            // 读取失败（权限被回收、实例消失等）：丢弃本次读数并释放连接，下次自动重连。
+            // 这里不调用 DeactivateSensor —— 否则节点会在树上反复消失/出现。
             _wmiObject?.Dispose();
             _wmiObject = null;
             _fan.Value = null;
-            DeactivateSensor(_fan);
+            _lastError = e.Message;
         }
     }
 
@@ -100,10 +105,11 @@ internal sealed class AcpiWmiHardware : Hardware
     /// <inheritdoc />
     public override string GetReport()
     {
-        return "ACPI WMI (private fan channel)" + Environment.NewLine +
-               " Class: " + WmiClassName + Environment.NewLine +
-               " Instance: " + _instanceName + Environment.NewLine +
-               " Fan speed: " + (_fan.Value?.ToString(CultureInfo.InvariantCulture) ?? "n/a") + " RPM" + Environment.NewLine;
+        return "ACPI WMI 私有风扇通道" + Environment.NewLine +
+               " 类: " + WmiClassName + Environment.NewLine +
+               " 实例: " + _instanceName + Environment.NewLine +
+               " 转速: " + (_fan.Value?.ToString(CultureInfo.InvariantCulture) ?? "无数据") + " RPM" + Environment.NewLine +
+               " 最近错误: " + (_lastError ?? "无") + Environment.NewLine;
     }
 
     /// <inheritdoc />

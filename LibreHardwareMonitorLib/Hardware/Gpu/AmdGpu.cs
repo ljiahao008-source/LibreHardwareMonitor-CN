@@ -74,40 +74,40 @@ internal sealed class AmdGpu : GenericGpu
         BusNumber = adapterInfo.BusNumber;
         DeviceNumber = adapterInfo.DeviceNumber;
 
-        _temperatureCore = new Sensor("GPU Core", 0, SensorType.Temperature, this, settings);
-        _temperatureMemory = new Sensor("GPU Memory", 1, SensorType.Temperature, this, settings);
-        _temperatureVddc = new Sensor("GPU VR VDDC", 2, SensorType.Temperature, this, settings);
-        _temperatureMvdd = new Sensor("GPU VR MVDD", 3, SensorType.Temperature, this, settings);
-        _temperatureSoC = new Sensor("GPU VR SoC", 4, SensorType.Temperature, this, settings);
-        _temperatureLiquid = new Sensor("GPU Liquid", 5, SensorType.Temperature, this, settings);
-        _temperaturePlx = new Sensor("GPU PLX", 6, SensorType.Temperature, this, settings);
-        _temperatureHotSpot = new Sensor("GPU Hot Spot", 7, SensorType.Temperature, this, settings);
+        _temperatureCore = new Sensor("GPU 核心", 0, SensorType.Temperature, this, settings);
+        _temperatureMemory = new Sensor("GPU 显存", 1, SensorType.Temperature, this, settings);
+        _temperatureVddc = new Sensor("GPU VDDC 供电温度", 2, SensorType.Temperature, this, settings);
+        _temperatureMvdd = new Sensor("GPU MVDD 供电温度", 3, SensorType.Temperature, this, settings);
+        _temperatureSoC = new Sensor("GPU SoC 供电温度", 4, SensorType.Temperature, this, settings);
+        _temperatureLiquid = new Sensor("GPU 液冷温度", 5, SensorType.Temperature, this, settings);
+        _temperaturePlx = new Sensor("GPU PLX 温度", 6, SensorType.Temperature, this, settings);
+        _temperatureHotSpot = new Sensor("GPU 热点温度", 7, SensorType.Temperature, this, settings);
 
-        _coreClock = new Sensor("GPU Core", 0, SensorType.Clock, this, settings);
+        _coreClock = new Sensor("GPU 核心", 0, SensorType.Clock, this, settings);
         _socClock = new Sensor("GPU SoC", 1, SensorType.Clock, this, settings);
-        _memoryClock = new Sensor("GPU Memory", 2, SensorType.Clock, this, settings);
+        _memoryClock = new Sensor("GPU 显存", 2, SensorType.Clock, this, settings);
 
-        _fan = new Sensor("GPU Fan", 0, SensorType.Fan, this, settings);
+        _fan = new Sensor("GPU 风扇", 0, SensorType.Fan, this, settings);
 
-        _coreVoltage = new Sensor("GPU Core", 0, SensorType.Voltage, this, settings);
-        _memoryVoltage = new Sensor("GPU Memory", 1, SensorType.Voltage, this, settings);
+        _coreVoltage = new Sensor("GPU 核心", 0, SensorType.Voltage, this, settings);
+        _memoryVoltage = new Sensor("GPU 显存", 1, SensorType.Voltage, this, settings);
         _socVoltage = new Sensor("GPU SoC", 2, SensorType.Voltage, this, settings);
 
-        _coreLoad = new Sensor("GPU Core", 0, SensorType.Load, this, settings);
-        _memoryLoad = new Sensor("GPU Memory", 1, SensorType.Load, this, settings);
+        _coreLoad = new Sensor("GPU 核心", 0, SensorType.Load, this, settings);
+        _memoryLoad = new Sensor("GPU 显存", 1, SensorType.Load, this, settings);
 
-        _controlSensor = new Sensor("GPU Fan", 0, SensorType.Control, this, settings);
+        _controlSensor = new Sensor("GPU 风扇", 0, SensorType.Control, this, settings);
 
-        _powerCore = new Sensor("GPU Core", 0, SensorType.Power, this, settings);
+        _powerCore = new Sensor("GPU 核心", 0, SensorType.Power, this, settings);
         _powerPpt = new Sensor("GPU PPT", 1, SensorType.Power, this, settings);
         _powerSoC = new Sensor("GPU SoC", 2, SensorType.Power, this, settings);
-        _powerTotal = new Sensor("GPU Package", 3, SensorType.Power, this, settings);
+        _powerTotal = new Sensor("GPU 封装功耗", 3, SensorType.Power, this, settings);
 
-        _fullscreenFps = new Sensor("Fullscreen FPS", 0, SensorType.Factor, this, settings);
+        _fullscreenFps = new Sensor("全屏帧率", 0, SensorType.Factor, this, settings);
 
-        _memoryUsed = new Sensor("GPU Memory Used", 0, SensorType.SmallData, this, settings);
-        _memoryFree = new Sensor("GPU Memory Free", 1, SensorType.SmallData, this, settings);
-        _memoryTotal = new Sensor("GPU Memory Total", 2, SensorType.SmallData, this, settings);
+        _memoryUsed = new Sensor("GPU 显存已用", 0, SensorType.SmallData, this, settings);
+        _memoryFree = new Sensor("GPU 显存可用", 1, SensorType.SmallData, this, settings);
+        _memoryTotal = new Sensor("GPU 显存总计", 2, SensorType.SmallData, this, settings);
 
         if (!Software.OperatingSystem.IsUnix)
         {
@@ -127,12 +127,12 @@ internal sealed class AmdGpu : GenericGpu
                         int nodeSensorIndex = 2;
                         int memorySensorIndex = 3;
 
-                        _gpuDedicatedMemoryUsage = new Sensor("D3D Dedicated Memory Used", memorySensorIndex++, SensorType.SmallData, this, settings);
-                        _gpuDedicatedMemoryFree = new Sensor("D3D Dedicated Memory Free", memorySensorIndex++, SensorType.SmallData, this, settings);
-                        _gpuDedicatedMemoryTotal = new Sensor("D3D Dedicated Memory Total", memorySensorIndex++, SensorType.SmallData, this, settings);
-                        _gpuSharedMemoryUsage = new Sensor("D3D Shared Memory Used", memorySensorIndex++, SensorType.SmallData, this, settings);
-                        _gpuSharedMemoryFree = new Sensor("D3D Shared Memory Free", memorySensorIndex++, SensorType.SmallData, this, settings);
-                        _gpuSharedMemoryTotal = new Sensor("D3D Shared Memory Total", memorySensorIndex++, SensorType.SmallData, this, settings);
+                        _gpuDedicatedMemoryUsage = new Sensor("D3D 专用显存已用", memorySensorIndex++, SensorType.SmallData, this, settings);
+                        _gpuDedicatedMemoryFree = new Sensor("D3D 专用显存可用", memorySensorIndex++, SensorType.SmallData, this, settings);
+                        _gpuDedicatedMemoryTotal = new Sensor("D3D 专用显存总计", memorySensorIndex++, SensorType.SmallData, this, settings);
+                        _gpuSharedMemoryUsage = new Sensor("D3D 共享显存已用", memorySensorIndex++, SensorType.SmallData, this, settings);
+                        _gpuSharedMemoryFree = new Sensor("D3D 共享显存可用", memorySensorIndex++, SensorType.SmallData, this, settings);
+                        _gpuSharedMemoryTotal = new Sensor("D3D 共享显存总计", memorySensorIndex++, SensorType.SmallData, this, settings);
 
                         _gpuNodeUsage = new Sensor[deviceInfo.Nodes.Length];
                         _gpuNodeUsagePrevValue = new long[deviceInfo.Nodes.Length];

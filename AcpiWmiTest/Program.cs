@@ -32,6 +32,12 @@ internal static class Program
     {
         Computer computer = new();
         computer.IsAcpiWmiEnabled = true;
+        computer.IsCpuEnabled = true;
+        computer.IsGpuEnabled = true;
+        computer.IsMemoryEnabled = true;
+        computer.IsStorageEnabled = true;
+        computer.IsNetworkEnabled = true;
+        computer.IsMotherboardEnabled = true;
         computer.Open();
 
         Console.WriteLine("Detected hardware:");

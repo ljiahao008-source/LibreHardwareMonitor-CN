@@ -145,14 +145,14 @@ internal static class D3DDisplayDevice
         {
             DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_OTHER => GetOtherName(),
             DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_3D => "D3D 3D",
-            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_VIDEO_DECODE => "D3D Video Decode",
-            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_VIDEO_ENCODE => "D3D Video Encode",
-            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_VIDEO_PROCESSING => "D3D Video Processing",
-            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_SCENE_ASSEMBLY => "D3D Scene Assembly",
-            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_COPY => "D3D Copy",
-            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_OVERLAY => "D3D Overlay",
-            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_CRYPTO => "D3D Crypto",
-            _ => "D3D Unknown"
+            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_VIDEO_DECODE => "D3D 视频解码",
+            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_VIDEO_ENCODE => "D3D 视频编码",
+            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_VIDEO_PROCESSING => "D3D 视频处理",
+            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_SCENE_ASSEMBLY => "D3D 场景组装",
+            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_COPY => "D3D 复制",
+            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_OVERLAY => "D3D 叠加",
+            DXGK_ENGINE_TYPE.DXGK_ENGINE_TYPE_CRYPTO => "D3D 加密",
+            _ => "D3D 未知"
         };
 
         string GetOtherName()
@@ -160,10 +160,10 @@ internal static class D3DDisplayDevice
             string friendlyName = (nodeMetaData.NodeData.FriendlyName.Length > 0 ? nodeMetaData.NodeData.FriendlyName : "Other").ToString();
 
             if (friendlyName.StartsWith("JPEG_Decode_"))
-                friendlyName = friendlyName.Replace("JPEG_Decode_", "JPEG Decode ");
+                friendlyName = friendlyName.Replace("JPEG_Decode_", "JPEG 解码 ");
 
             if (friendlyName.StartsWith("OFA_"))
-                friendlyName = friendlyName.Replace("OFA_", "Optical Flow Accelerator ");
+                friendlyName = friendlyName.Replace("OFA_", "光流加速器 ");
 
             return "D3D " + friendlyName;
         }

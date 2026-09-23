@@ -37,12 +37,12 @@ internal sealed class MPS : Hardware
             Name = "MPS";
             FirmwareVersion = ExtractFirmwareVersion();
 
-            _temperatures[0] = new Sensor("External", 0, SensorType.Temperature, this, Array.Empty<ParameterDescription>(), settings);
+            _temperatures[0] = new Sensor("外部温度", 0, SensorType.Temperature, this, Array.Empty<ParameterDescription>(), settings);
             ActivateSensor(_temperatures[0]);
-            _temperatures[1] = new Sensor("Internal Water", 1, SensorType.Temperature, this, Array.Empty<ParameterDescription>(), settings);
+            _temperatures[1] = new Sensor("内部水温", 1, SensorType.Temperature, this, Array.Empty<ParameterDescription>(), settings);
             ActivateSensor(_temperatures[1]);
 
-            _pumpFlow = new Sensor("Pump", 0, SensorType.Flow, this, Array.Empty<ParameterDescription>(), settings);
+            _pumpFlow = new Sensor("水泵", 0, SensorType.Flow, this, Array.Empty<ParameterDescription>(), settings);
             ActivateSensor(_pumpFlow);
         }
     }

@@ -69,23 +69,23 @@ internal class MsiCoreLiquidController : Hardware
     {
         if (MsiDevice.DeviceType == MsiDeviceType.S360)
         {
-            _fan1 = AddSensor("Radiator Fan", 10, SensorType.Fan, m => m.Fan1.Speed);
-            _fan4 = AddSensor("Pump Fan", 13, SensorType.Fan, m => m.Fan4.Speed);
+            _fan1 = AddSensor("冷排风扇", 10, SensorType.Fan, m => m.Fan1.Speed);
+            _fan4 = AddSensor("水泵风扇", 13, SensorType.Fan, m => m.Fan4.Speed);
             _fan5 = AddSensor("Pump", 14, SensorType.Fan, m => m.Fan5.Speed);
         }
         else //May need other mapping for different devices
         {
-            _fan1 = AddSensor("Fan 1", 10, SensorType.Fan, m => m.Fan1.Speed);
-            _fan2 = AddSensor("Fan 2", 11, SensorType.Fan, m => m.Fan2.Speed);
-            _fan3 = AddSensor("Fan 3", 12, SensorType.Fan, m => m.Fan3.Speed);
-            _fan4 = AddSensor("Fan 4", 13, SensorType.Fan, m => m.Fan4.Speed);
-            _fan5 = AddSensor("Fan 5", 14, SensorType.Fan, m => m.Fan5.Speed);
+            _fan1 = AddSensor("风扇 1", 10, SensorType.Fan, m => m.Fan1.Speed);
+            _fan2 = AddSensor("风扇 2", 11, SensorType.Fan, m => m.Fan2.Speed);
+            _fan3 = AddSensor("风扇 3", 12, SensorType.Fan, m => m.Fan3.Speed);
+            _fan4 = AddSensor("风扇 4", 13, SensorType.Fan, m => m.Fan4.Speed);
+            _fan5 = AddSensor("风扇 5", 14, SensorType.Fan, m => m.Fan5.Speed);
         }
 
-        AddSensor("Inlet Temperature", 0, SensorType.Temperature, m => m.TemperatureInlet);
-        AddSensor("Liquid Temperature", 1, SensorType.Temperature, m => m.TemperatureOutlet); //Msi: "Liquid_Temp"
-        AddSensor("Temperature Sensor 1", 2, SensorType.Temperature, m => m.TemperatureSensor1 == 125 ? -100 : m.TemperatureSensor1);
-        AddSensor("Temperature Sensor 2", 3, SensorType.Temperature, m => m.TemperatureSensor2 == 125 ? -100 : m.TemperatureSensor2);
+        AddSensor("进水温度", 0, SensorType.Temperature, m => m.TemperatureInlet);
+        AddSensor("液冷温度", 1, SensorType.Temperature, m => m.TemperatureOutlet); //Msi: "Liquid_Temp"
+        AddSensor("温度传感器 1", 2, SensorType.Temperature, m => m.TemperatureSensor1 == 125 ? -100 : m.TemperatureSensor1);
+        AddSensor("温度传感器 2", 3, SensorType.Temperature, m => m.TemperatureSensor2 == 125 ? -100 : m.TemperatureSensor2);
 
         void TryAddFanControl(Sensor fan)
         {

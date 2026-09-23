@@ -100,8 +100,8 @@ internal sealed class NvidiaGpu : GenericGpu
         }
 
         // Thermal sensors.
-        _hotSpotTemperature = new Sensor("GPU Hot Spot", (int)thermalSettings.Count + 1, SensorType.Temperature, this, settings);
-        _memoryJunctionTemperature = new Sensor("GPU Memory Junction", (int)thermalSettings.Count + 2, SensorType.Temperature, this, settings);
+        _hotSpotTemperature = new Sensor("GPU 热点温度", (int)thermalSettings.Count + 1, SensorType.Temperature, this, settings);
+        _memoryJunctionTemperature = new Sensor("GPU 显存结温", (int)thermalSettings.Count + 2, SensorType.Temperature, this, settings);
         bool hasAnyThermalSensor = false;
 
         for (int thermalSensorsMaxBit = 0; thermalSensorsMaxBit < 32; thermalSensorsMaxBit++)
@@ -187,7 +187,7 @@ internal sealed class NvidiaGpu : GenericGpu
             GetTachReading(out status);
             if (status == NvApi.NvStatus.OK)
             {
-                _fans = new[] { new Sensor("GPU", 1, SensorType.Fan, this, settings) };
+                _fans = new[] { new Sensor("GPU 风扇", 1, SensorType.Fan, this, settings) };
                 ActivateSensor(_fans[0]);
             }
         }
@@ -327,7 +327,7 @@ internal sealed class NvidiaGpu : GenericGpu
         var voltageSensor = GetVoltRailsStatus(out status);
         if (status == NvApi.NvStatus.OK)
         {
-            _coreVoltage = new Sensor("GPU Core Voltage", 0, SensorType.Voltage, this, settings);
+            _coreVoltage = new Sensor("GPU 核心电压", 0, SensorType.Voltage, this, settings);
 
             ActivateSensor(_coreVoltage);
         }
@@ -341,10 +341,10 @@ internal sealed class NvidiaGpu : GenericGpu
 
             if (_nvmlDevice.HasValue)
             {
-                _powerUsage = new Sensor("GPU Package", 0, SensorType.Power, this, settings);
+                _powerUsage = new Sensor("GPU 封装功耗", 0, SensorType.Power, this, settings);
 
-                _pcieThroughputRx = new Sensor("GPU PCIe Rx", 0, SensorType.Throughput, this, settings);
-                _pcieThroughputTx = new Sensor("GPU PCIe Tx", 1, SensorType.Throughput, this, settings);
+                _pcieThroughputRx = new Sensor("GPU PCIe 接收", 0, SensorType.Throughput, this, settings);
+                _pcieThroughputTx = new Sensor("GPU PCIe 发送", 1, SensorType.Throughput, this, settings);
 
                 if (!Software.OperatingSystem.IsUnix)
                 {
@@ -422,8 +422,8 @@ internal sealed class NvidiaGpu : GenericGpu
 
                                         _d3dDeviceId = deviceId;
 
-                                        _gpuDedicatedMemoryUsage = new Sensor("D3D Dedicated Memory Used", smallDataSensorIndex++, SensorType.SmallData, this, settings);
-                                        _gpuSharedMemoryUsage = new Sensor("D3D Shared Memory Used", smallDataSensorIndex, SensorType.SmallData, this, settings);
+                                        _gpuDedicatedMemoryUsage = new Sensor("D3D 专用显存已用", smallDataSensorIndex++, SensorType.SmallData, this, settings);
+                                        _gpuSharedMemoryUsage = new Sensor("D3D 共享显存已用", smallDataSensorIndex, SensorType.SmallData, this, settings);
 
                                         _gpuNodeUsage = new Sensor[deviceInfo.Nodes.Length];
                                         _gpuNodeUsagePrevValue = new long[deviceInfo.Nodes.Length];
@@ -444,10 +444,10 @@ internal sealed class NvidiaGpu : GenericGpu
             }
         }
 
-        _memoryFree = new Sensor("GPU Memory Free", 0, SensorType.SmallData, this, settings);
-        _memoryUsed = new Sensor("GPU Memory Used", 1, SensorType.SmallData, this, settings);
-        _memoryTotal = new Sensor("GPU Memory Total", 2, SensorType.SmallData, this, settings);
-        _memoryLoad = new Sensor("GPU Memory", 3, SensorType.Load, this, settings);
+        _memoryFree = new Sensor("GPU 显存可用", 0, SensorType.SmallData, this, settings);
+        _memoryUsed = new Sensor("GPU 显存已用", 1, SensorType.SmallData, this, settings);
+        _memoryTotal = new Sensor("GPU 显存总计", 2, SensorType.SmallData, this, settings);
+        _memoryLoad = new Sensor("GPU 显存", 3, SensorType.Load, this, settings);
 
         // Pin power sensors for NVIDIA RTX Astral series from ASUS
         if (NvApi.NvAPI_I2CReadEx != null && NvApi.NvAPI_GPU_GetPCIIdentifiers != null)
@@ -458,30 +458,30 @@ internal sealed class NvidiaGpu : GenericGpu
             {
                 _12VHPwrPinVoltageSensors =
                 [
-                    new Sensor("12VHPWR Pin 1", 0, SensorType.Voltage, this, settings),
-                    new Sensor("12VHPWR Pin 2", 1, SensorType.Voltage, this, settings),
-                    new Sensor("12VHPWR Pin 3", 2, SensorType.Voltage, this, settings),
-                    new Sensor("12VHPWR Pin 4", 3, SensorType.Voltage, this, settings),
-                    new Sensor("12VHPWR Pin 5", 4, SensorType.Voltage, this, settings),
-                    new Sensor("12VHPWR Pin 6", 5, SensorType.Voltage, this, settings),
+                    new Sensor("12VHPWR 针脚 1", 0, SensorType.Voltage, this, settings),
+                    new Sensor("12VHPWR 针脚 2", 1, SensorType.Voltage, this, settings),
+                    new Sensor("12VHPWR 针脚 3", 2, SensorType.Voltage, this, settings),
+                    new Sensor("12VHPWR 针脚 4", 3, SensorType.Voltage, this, settings),
+                    new Sensor("12VHPWR 针脚 5", 4, SensorType.Voltage, this, settings),
+                    new Sensor("12VHPWR 针脚 6", 5, SensorType.Voltage, this, settings),
                 ];
                 _12VHPwrPinCurrentSensors =
                 [
-                    new Sensor("12VHPWR Pin 1", 1, SensorType.Current, this, settings),
-                    new Sensor("12VHPWR Pin 2", 2, SensorType.Current, this, settings),
-                    new Sensor("12VHPWR Pin 3", 3, SensorType.Current, this, settings),
-                    new Sensor("12VHPWR Pin 4", 4, SensorType.Current, this, settings),
-                    new Sensor("12VHPWR Pin 5", 5, SensorType.Current, this, settings),
-                    new Sensor("12VHPWR Pin 6", 6, SensorType.Current, this, settings),
+                    new Sensor("12VHPWR 针脚 1", 1, SensorType.Current, this, settings),
+                    new Sensor("12VHPWR 针脚 2", 2, SensorType.Current, this, settings),
+                    new Sensor("12VHPWR 针脚 3", 3, SensorType.Current, this, settings),
+                    new Sensor("12VHPWR 针脚 4", 4, SensorType.Current, this, settings),
+                    new Sensor("12VHPWR 针脚 5", 5, SensorType.Current, this, settings),
+                    new Sensor("12VHPWR 针脚 6", 6, SensorType.Current, this, settings),
                 ];
                 _12VHPwrPinPowerSensors =
                 [
-                    new Sensor("12VHPWR Pin 1", 2, SensorType.Power, this, settings),
-                    new Sensor("12VHPWR Pin 2", 3, SensorType.Power, this, settings),
-                    new Sensor("12VHPWR Pin 3", 4, SensorType.Power, this, settings),
-                    new Sensor("12VHPWR Pin 4", 5, SensorType.Power, this, settings),
-                    new Sensor("12VHPWR Pin 5", 6, SensorType.Power, this, settings),
-                    new Sensor("12VHPWR Pin 6", 7, SensorType.Power, this, settings),
+                    new Sensor("12VHPWR 针脚 1", 2, SensorType.Power, this, settings),
+                    new Sensor("12VHPWR 针脚 2", 3, SensorType.Power, this, settings),
+                    new Sensor("12VHPWR 针脚 3", 4, SensorType.Power, this, settings),
+                    new Sensor("12VHPWR 针脚 4", 5, SensorType.Power, this, settings),
+                    new Sensor("12VHPWR 针脚 5", 6, SensorType.Power, this, settings),
+                    new Sensor("12VHPWR 针脚 6", 7, SensorType.Power, this, settings),
                 ];
 
                 foreach (Sensor sensor in _12VHPwrPinVoltageSensors)
@@ -493,8 +493,8 @@ internal sealed class NvidiaGpu : GenericGpu
                 foreach (Sensor sensor in _12VHPwrPinPowerSensors)
                     ActivateSensor(sensor);
 
-                _12VHPwrConnectorPowerSensor = new Sensor("12VHPWR Connector", 1, SensorType.Power, this, settings);
-                _12VHPwrConnectorCurrentSensor = new Sensor("12VHPWR Connector", 0, SensorType.Current, this, settings);
+                _12VHPwrConnectorPowerSensor = new Sensor("12VHPWR 接口", 1, SensorType.Power, this, settings);
+                _12VHPwrConnectorCurrentSensor = new Sensor("12VHPWR 接口", 0, SensorType.Current, this, settings);
 
                 ActivateSensor(_12VHPwrConnectorPowerSensor);
                 ActivateSensor(_12VHPwrConnectorCurrentSensor);

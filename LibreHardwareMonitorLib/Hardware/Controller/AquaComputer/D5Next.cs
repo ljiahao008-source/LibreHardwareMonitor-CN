@@ -38,40 +38,40 @@ internal sealed class D5Next : Hardware
 
             Name = "D5Next";
             FirmwareVersion = Convert.ToUInt16(_rawData[14] | (_rawData[13] << 8));
-            _temperatures[0] = new Sensor("Water Temperature", 0, SensorType.Temperature, this, Array.Empty<ParameterDescription>(), settings);
+            _temperatures[0] = new Sensor("水温", 0, SensorType.Temperature, this, Array.Empty<ParameterDescription>(), settings);
             ActivateSensor(_temperatures[0]);
 
-            _rpmSensors[0] = new Sensor("Pump", 0, SensorType.Fan, this, Array.Empty<ParameterDescription>(), settings);
+            _rpmSensors[0] = new Sensor("水泵", 0, SensorType.Fan, this, Array.Empty<ParameterDescription>(), settings);
             ActivateSensor(_rpmSensors[0]);
 
-            _rpmSensors[1] = new Sensor("Fan", 1, SensorType.Fan, this, settings);
+            _rpmSensors[1] = new Sensor("风扇", 1, SensorType.Fan, this, settings);
             ActivateSensor(_rpmSensors[1]);
 
-            _voltages[0] = new Sensor("Fan Voltage", 0, SensorType.Voltage, this, settings);
+            _voltages[0] = new Sensor("风扇电压", 0, SensorType.Voltage, this, settings);
             ActivateSensor(_voltages[0]);
 
-            _voltages[1] = new Sensor("Pump Voltage", 1, SensorType.Voltage, this, settings);
+            _voltages[1] = new Sensor("水泵电压", 1, SensorType.Voltage, this, settings);
             ActivateSensor(_voltages[1]);
 
-            _voltages[2] = new Sensor("+5V Voltage", 2, SensorType.Voltage, this, settings);
+            _voltages[2] = new Sensor("+5V 电压", 2, SensorType.Voltage, this, settings);
             ActivateSensor(_voltages[2]);
 
-            _voltages[3] = new Sensor("+12V Voltage", 3, SensorType.Voltage, this, settings);
+            _voltages[3] = new Sensor("+12V 电压", 3, SensorType.Voltage, this, settings);
             ActivateSensor(_voltages[3]);
            
-            _powers[0] = new Sensor("Fan Power", 0, SensorType.Power, this, settings);
+            _powers[0] = new Sensor("风扇功耗", 0, SensorType.Power, this, settings);
             ActivateSensor(_powers[0]);
 
-            _powers[1] = new Sensor("Pump Power", 1, SensorType.Power, this, settings);
+            _powers[1] = new Sensor("水泵功耗", 1, SensorType.Power, this, settings);
             ActivateSensor(_powers[1]);
 
-            _flows[0] = new Sensor("Viritual Flow", 0, SensorType.Flow, this, settings);
+            _flows[0] = new Sensor("虚拟流量", 0, SensorType.Flow, this, settings);
             ActivateSensor(_flows[0]);
 
-            _fanControl[0] = new Sensor("Fan Control", 0, SensorType.Control, this, settings);
+            _fanControl[0] = new Sensor("风扇控制", 0, SensorType.Control, this, settings);
             ActivateSensor(_fanControl[0]);
 
-            _fanControl[1] = new Sensor("Pump Control", 1, SensorType.Control, this, settings);
+            _fanControl[1] = new Sensor("水泵控制", 1, SensorType.Control, this, settings);
             ActivateSensor(_fanControl[1]);
         }
     }

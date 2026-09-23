@@ -47,19 +47,19 @@ internal class IntelIntegratedGpu : GenericGpu
         {
             if (probeTelemetry.gpuCurrentTemperature.bSupported)
             {
-                _gtCoresTemperature = new Sensor("GPU Core", 0, SensorType.Temperature, this, settings);
+                _gtCoresTemperature = new Sensor("GPU 核心", 0, SensorType.Temperature, this, settings);
                 ActivateSensor(_gtCoresTemperature);
             }
 
             if (probeTelemetry.gpuCurrentClockFrequency.bSupported)
             {
-                _gpuClockFrequency = new Sensor("GPU Core", 0, SensorType.Clock, this, settings);
+                _gpuClockFrequency = new Sensor("GPU 核心", 0, SensorType.Clock, this, settings);
                 ActivateSensor(_gpuClockFrequency);
             }
 
             if (probeTelemetry.gpuVoltage.bSupported)
             {
-                _gpuVoltage = new Sensor("GPU Core", 0, SensorType.Voltage, this, settings);
+                _gpuVoltage = new Sensor("GPU 核心", 0, SensorType.Voltage, this, settings);
                 ActivateSensor(_gpuVoltage);
             }
         }
@@ -68,15 +68,15 @@ internal class IntelIntegratedGpu : GenericGpu
 
         if (deviceInfo.GpuDedicatedLimit > 0)
         {
-            _dedicatedMemoryUsage = new Sensor("D3D Dedicated Memory Used", memorySensorIndex++, SensorType.SmallData, this, settings);
+            _dedicatedMemoryUsage = new Sensor("D3D 专用显存已用", memorySensorIndex++, SensorType.SmallData, this, settings);
         }
 
-        _sharedMemoryUsage = new Sensor("D3D Shared Memory Used", memorySensorIndex++, SensorType.SmallData, this, settings);
+        _sharedMemoryUsage = new Sensor("D3D 共享显存已用", memorySensorIndex++, SensorType.SmallData, this, settings);
 
         if (deviceInfo.GpuSharedLimit > 0)
         {
-            _sharedMemoryFree = new Sensor("D3D Shared Memory Free", memorySensorIndex++, SensorType.SmallData, this, settings);
-            _sharedMemoryLimit = new Sensor("D3D Shared Memory Total", memorySensorIndex++, SensorType.SmallData, this, settings);
+            _sharedMemoryFree = new Sensor("D3D 共享显存可用", memorySensorIndex++, SensorType.SmallData, this, settings);
+            _sharedMemoryLimit = new Sensor("D3D 共享显存总计", memorySensorIndex++, SensorType.SmallData, this, settings);
         }
 
         if (_pawnModule.ReadMsr(MSR_PP1_ENERGY_STATUS, out uint eax, out uint _))
@@ -86,7 +86,7 @@ internal class IntelIntegratedGpu : GenericGpu
             {
                 _lastEnergyTime = DateTime.UtcNow;
                 _lastEnergyConsumed = eax;
-                _powerSensor = new Sensor("GPU Power", 0, SensorType.Power, this, settings);
+                _powerSensor = new Sensor("GPU 功耗", 0, SensorType.Power, this, settings);
                 ActivateSensor(_powerSensor);
             }
         }

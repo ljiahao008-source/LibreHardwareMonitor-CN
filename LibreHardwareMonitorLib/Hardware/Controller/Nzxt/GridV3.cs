@@ -64,11 +64,11 @@ internal sealed class GridV3 : Hardware
             // Initialize all sensors and controls for all fans
             for (int i = 0; i < FANS_COUNT; i++)
             {
-                _rpmSensors[i] = new Sensor($"GRID Fan #{i + 1}", i, SensorType.Fan, this, Array.Empty<ParameterDescription>(), settings);
-                _voltages[i] = new Sensor($"GRID Fan #{i + 1}", i, SensorType.Voltage, this, Array.Empty<ParameterDescription>(), settings);
-                _currents[i] = new Sensor($"GRID Fan #{i + 1}", i, SensorType.Current, this, Array.Empty<ParameterDescription>(), settings);
-                _powers[i] = new Sensor($"GRID Fan #{i + 1}", i, SensorType.Power, this, Array.Empty<ParameterDescription>(), settings);
-                _pwmControls[i] = new Sensor($"GRID Fan #{i + 1}", i, SensorType.Control, this, Array.Empty<ParameterDescription>(), settings);
+                _rpmSensors[i] = new Sensor($"GRID 风扇 #{i + 1}", i, SensorType.Fan, this, Array.Empty<ParameterDescription>(), settings);
+                _voltages[i] = new Sensor($"GRID 风扇 #{i + 1}", i, SensorType.Voltage, this, Array.Empty<ParameterDescription>(), settings);
+                _currents[i] = new Sensor($"GRID 风扇 #{i + 1}", i, SensorType.Current, this, Array.Empty<ParameterDescription>(), settings);
+                _powers[i] = new Sensor($"GRID 风扇 #{i + 1}", i, SensorType.Power, this, Array.Empty<ParameterDescription>(), settings);
+                _pwmControls[i] = new Sensor($"GRID 风扇 #{i + 1}", i, SensorType.Control, this, Array.Empty<ParameterDescription>(), settings);
 
                 _fanControls[i] = new Control(_pwmControls[i], settings, 0, 100);
 
@@ -87,7 +87,7 @@ internal sealed class GridV3 : Hardware
                 _fanControls[i].SetDefault();
             }
 
-            _noise = new Sensor("GRID Noise", 0, SensorType.Noise, this, Array.Empty<ParameterDescription>(), settings);
+            _noise = new Sensor("GRID 噪声", 0, SensorType.Noise, this, Array.Empty<ParameterDescription>(), settings);
             ActivateSensor(_noise);
 
             Thread readGridReports = new(ContinuousRead) { IsBackground = true };

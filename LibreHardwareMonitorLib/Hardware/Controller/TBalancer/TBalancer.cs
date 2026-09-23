@@ -46,17 +46,17 @@ internal class TBalancer : Hardware
         ParameterDescription[] parameter = { new("Offset [°C]", "Temperature offset.", 0) };
         int offset = 0;
         for (int i = 0; i < _digitalTemperatures.Length; i++)
-            _digitalTemperatures[i] = new Sensor("Digital Sensor " + i, offset + i, SensorType.Temperature, this, parameter, settings);
+            _digitalTemperatures[i] = new Sensor("数字传感器 " + i, offset + i, SensorType.Temperature, this, parameter, settings);
 
         offset += _digitalTemperatures.Length;
 
         for (int i = 0; i < _analogTemperatures.Length; i++)
-            _analogTemperatures[i] = new Sensor("Analog Sensor " + (i + 1), offset + i, SensorType.Temperature, this, parameter, settings);
+            _analogTemperatures[i] = new Sensor("模拟传感器 " + (i + 1), offset + i, SensorType.Temperature, this, parameter, settings);
 
         offset += _analogTemperatures.Length;
 
         for (int i = 0; i < _sensorHubTemperatures.Length; i++)
-            _sensorHubTemperatures[i] = new Sensor("Sensorhub Sensor " + i, offset + i, SensorType.Temperature, this, parameter, settings);
+            _sensorHubTemperatures[i] = new Sensor("传感器集线器 " + i, offset + i, SensorType.Temperature, this, parameter, settings);
 
         offset += _sensorHubTemperatures.Length;
 
@@ -65,7 +65,7 @@ internal class TBalancer : Hardware
 
         for (int i = 0; i < _sensorHubFlows.Length; i++)
         {
-            _sensorHubFlows[i] = new Sensor("Flowmeter " + (i + 1),
+            _sensorHubFlows[i] = new Sensor("流量计 " + (i + 1),
                                             i,
                                             SensorType.Flow,
                                             this,
@@ -75,7 +75,7 @@ internal class TBalancer : Hardware
 
         for (int i = 0; i < _controls.Length; i++)
         {
-            _controls[i] = new Sensor("Fan Channel " + i, i, SensorType.Control, this, settings);
+            _controls[i] = new Sensor("风扇通道 " + i, i, SensorType.Control, this, settings);
         }
 
         for (int i = 0; i < _miniNgControls.Length; i++)
@@ -232,7 +232,7 @@ internal class TBalancer : Hardware
             {
                 float maxRpm = 11.5f * ((_data[149 + (2 * i)] << 8) | _data[148 + (2 * i)]);
 
-                _fans[i] ??= new Sensor("Fan Channel " + i,
+                _fans[i] ??= new Sensor("风扇通道 " + i,
                                         i,
                                         SensorType.Fan,
                                         this,

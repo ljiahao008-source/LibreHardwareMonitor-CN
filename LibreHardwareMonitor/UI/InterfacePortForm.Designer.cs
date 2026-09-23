@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
 // If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 // Copyright (C) LibreHardwareMonitor and Contributors.
 // Partial Copyright (C) Michael Möller <mmoeller@openhardwaremonitor.org> and Contributors.
@@ -55,7 +55,7 @@ namespace LibreHardwareMonitor.UI
             this.portOKButton.Name = "portOKButton";
             this.portOKButton.Size = new System.Drawing.Size(75, 23);
             this.portOKButton.TabIndex = 0;
-            this.portOKButton.Text = "OK";
+            this.portOKButton.Text = "确定";
             this.portOKButton.UseVisualStyleBackColor = true;
             this.portOKButton.Click += new System.EventHandler(this.PortOKButton_Click);
             // 
@@ -66,7 +66,7 @@ namespace LibreHardwareMonitor.UI
             this.portCancelButton.Name = "portCancelButton";
             this.portCancelButton.Size = new System.Drawing.Size(75, 23);
             this.portCancelButton.TabIndex = 1;
-            this.portCancelButton.Text = "Cancel";
+            this.portCancelButton.Text = "取消";
             this.portCancelButton.UseVisualStyleBackColor = true;
             this.portCancelButton.Click += new System.EventHandler(this.PortCancelButton_Click);
             // 
@@ -77,8 +77,7 @@ namespace LibreHardwareMonitor.UI
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(377, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Note: You will need to open the port in firewall settings of the operating system" +
-    ".";
+            this.label1.Text = "注意：需要在操作系统的防火墙设置中放行该端口。";
             // 
             // label2
             // 
@@ -87,7 +86,7 @@ namespace LibreHardwareMonitor.UI
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(190, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Port number for the remote web server:";
+            this.label2.Text = "远程 Web 服务器端口号：";
             // 
             // label3
             // 
@@ -96,8 +95,7 @@ namespace LibreHardwareMonitor.UI
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(443, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "If the web server is running then it will need to be restarted for the port chang" +
-    "e to take effect.";
+            this.label3.Text = "如果 Web 服务器正在运行，则需要重启才能让端口更改生效。";
             // 
             // label4
             // 
@@ -106,7 +104,7 @@ namespace LibreHardwareMonitor.UI
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(262, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "The web server will be accessible from the browser at ";
+            this.label4.Text = "可通过浏览器访问 Web 服务器，地址为 ";
             // 
             // webServerLinkLabel
             // 
@@ -150,7 +148,7 @@ namespace LibreHardwareMonitor.UI
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(304, 13);
             this.label5.TabIndex = 9;
-            this.label5.Text = "You will have to start the server by clicking Run from the menu.";
+            this.label5.Text = "需要从菜单中点击“启动”来启动服务器。";
             // 
             // interfaceLabel
             // 
@@ -159,7 +157,7 @@ namespace LibreHardwareMonitor.UI
             this.interfaceLabel.Name = "interfaceLabel";
             this.interfaceLabel.Size = new System.Drawing.Size(217, 13);
             this.interfaceLabel.TabIndex = 10;
-            this.interfaceLabel.Text = "Network interface for the remote web server:";
+            this.interfaceLabel.Text = "远程 Web 服务器的网卡：";
             // 
             // interfaceComboBox
             // 
@@ -196,7 +194,7 @@ namespace LibreHardwareMonitor.UI
             this.Name = "InterfacePortForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Set Port";
+            this.Text = "设置端口";
             this.Load += new System.EventHandler(this.PortForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.portNumericUpDn)).EndInit();
             this.ResumeLayout(false);

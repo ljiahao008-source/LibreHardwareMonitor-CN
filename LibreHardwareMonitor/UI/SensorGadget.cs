@@ -131,20 +131,20 @@ public class SensorGadget : Gadget
         Resize(settings.GetValue("sensorGadget.Width", Size.Width));
 
         ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
-        ToolStripMenuItem hardwareNamesItem = new ToolStripMenuItem("Hardware Names");
+        ToolStripMenuItem hardwareNamesItem = new ToolStripMenuItem("硬件名称");
         contextMenuStrip.Items.Add(hardwareNamesItem);
-        ToolStripMenuItem fontSizeMenu = new ToolStripMenuItem("Font Size");
+        ToolStripMenuItem fontSizeMenu = new ToolStripMenuItem("字体大小");
         for (int i = 0; i < 5; i++)
         {
             float size;
             string name;
             switch (i)
             {
-                case 0: size = 6.5f; name = "Small"; break;
-                case 1: size = 7.5f; name = "Medium"; break;
-                case 2: size = 9f; name = "Large"; break;
-                case 3: size = 11f; name = "Very Large"; break;
-                case 4: size = 22f; name = "Extremely Large"; break;
+                case 0: size = 6.5f; name = "小"; break;
+                case 1: size = 7.5f; name = "中"; break;
+                case 2: size = 9f; name = "大"; break;
+                case 3: size = 11f; name = "特大"; break;
+                case 4: size = 22f; name = "超大"; break;
                 default: throw new NotImplementedException();
             }
 
@@ -170,10 +170,10 @@ public class SensorGadget : Gadget
                                                 .Select(x => Color.FromKnownColor(x))
                                                 .Where(x => !x.IsSystemColor && x.Name.Length < 7);
 
-        ToolStripMenuItem fontColorMenu = new ToolStripMenuItem("Font Color");
+        ToolStripMenuItem fontColorMenu = new ToolStripMenuItem("字体颜色");
         foreach (Color color in providedColors)
         {
-            ToolStripItem item = new ToolStripMenuItem(color.Name) { Checked = fontColorArgb == color.ToArgb() };
+            ToolStripItem item = new ToolStripMenuItem(GetColorName(color)) { Checked = fontColorArgb == color.ToArgb() };
             item.Click += delegate
             {
                 SetFontColor(color);
@@ -185,12 +185,12 @@ public class SensorGadget : Gadget
         }
         contextMenuStrip.Items.Add(fontColorMenu);
         contextMenuStrip.Items.Add(new ToolStripSeparator());
-        ToolStripMenuItem lockItem = new ToolStripMenuItem("Lock Position and Size");
+        ToolStripMenuItem lockItem = new ToolStripMenuItem("锁定位置和大小");
         contextMenuStrip.Items.Add(lockItem);
         contextMenuStrip.Items.Add(new ToolStripSeparator());
-        ToolStripMenuItem alwaysOnTopItem = new ToolStripMenuItem("Always on Top");
+        ToolStripMenuItem alwaysOnTopItem = new ToolStripMenuItem("总在最前");
         contextMenuStrip.Items.Add(alwaysOnTopItem);
-        ToolStripMenuItem opacityMenu = new ToolStripMenuItem("Opacity");
+        ToolStripMenuItem opacityMenu = new ToolStripMenuItem("不透明度");
         contextMenuStrip.Items.Add(opacityMenu);
         Opacity = (byte)settings.GetValue("sensorGadget.Opacity", 255);
 
@@ -210,7 +210,7 @@ public class SensorGadget : Gadget
         }
 
         contextMenuStrip.Items.Add(new ToolStripSeparator());
-        ToolStripMenuItem hideShowItem = new ToolStripMenuItem("Hide/Show Main Window");
+        ToolStripMenuItem hideShowItem = new ToolStripMenuItem("隐藏/显示主窗口");
         contextMenuStrip.Items.Add(hideShowItem);
 
         ContextMenuStrip = contextMenuStrip;
@@ -440,6 +440,55 @@ public class SensorGadget : Gadget
         }
     }
 
+    /// <summary>
+    /// 取颜色的中文名用于菜单显示；未收录的颜色沿用 .NET 原名。
+    /// </summary>
+    private static string GetColorName(Color color)
+    {
+        return color.Name switch
+        {
+            "Aqua" => "水蓝",
+            "Azure" => "天蓝",
+            "Beige" => "米色",
+            "Bisque" => "杏色",
+            "Black" => "黑色",
+            "Blue" => "蓝色",
+            "Brown" => "棕色",
+            "Coral" => "珊瑚色",
+            "Cyan" => "青色",
+            "Gold" => "金色",
+            "Gray" => "灰色",
+            "Green" => "绿色",
+            "Indigo" => "靛蓝",
+            "Ivory" => "象牙白",
+            "Khaki" => "卡其色",
+            "Lime" => "青柠色",
+            "Linen" => "亚麻色",
+            "Maroon" => "栗色",
+            "Navy" => "藏青",
+            "Olive" => "橄榄色",
+            "Orange" => "橙色",
+            "Orchid" => "兰紫",
+            "Peru" => "土黄",
+            "Pink" => "粉色",
+            "Plum" => "梅红",
+            "Purple" => "紫色",
+            "Red" => "红色",
+            "Salmon" => "鲑红",
+            "Sienna" => "赭色",
+            "Silver" => "银色",
+            "Snow" => "雪白",
+            "Tan" => "茶色",
+            "Teal" => "蓝绿",
+            "Tomato" => "番茄红",
+            "Violet" => "紫罗兰",
+            "Wheat" => "麦色",
+            "White" => "白色",
+            "Yellow" => "黄色",
+            _ => color.Name
+        };
+    }
+
     private void SetFontSize(float size)
     {
         _fontSize = size;
@@ -585,8 +634,8 @@ public class SensorGadget : Gadget
             if (_sensors.Count == 0)
             {
                 x = LeftBorder + 1;
-                g.DrawString("Right-click on a sensor in the main window and select " +
-                             "\"Show in Gadget\" to show the sensor here.",
+                g.DrawString("在主窗口中右键点击某个传感器，" +
+                             "选择“在小工具中显示”即可在此显示该传感器。",
                              _smallFont, _textBrush,
                              new Rectangle(x, y - 1, w - RightBorder - x, 0));
             }

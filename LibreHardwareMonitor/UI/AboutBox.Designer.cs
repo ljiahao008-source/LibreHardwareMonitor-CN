@@ -54,7 +54,7 @@ namespace LibreHardwareMonitor.UI
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 0;
-            this.okButton.Text = "OK";
+            this.okButton.Text = "确定";
             this.okButton.UseVisualStyleBackColor = true;
             //
             // pictureBox1
@@ -75,7 +75,7 @@ namespace LibreHardwareMonitor.UI
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(117, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Libre Hardware Monitor";
+            this.label1.Text = "Libre 硬件监视器";
             //
             // label2
             //
@@ -85,7 +85,7 @@ namespace LibreHardwareMonitor.UI
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(250, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Copyright © LibreHardwareMonitor and Contributors";
+            this.label2.Text = "版权所有 © LibreHardwareMonitor 及贡献者";
             //
             // label3
             //
@@ -106,7 +106,7 @@ namespace LibreHardwareMonitor.UI
             this.projectLinkLabel.Size = new System.Drawing.Size(82, 13);
             this.projectLinkLabel.TabIndex = 6;
             this.projectLinkLabel.TabStop = true;
-            this.projectLinkLabel.Text = "Project Website";
+            this.projectLinkLabel.Text = "项目网站";
             this.projectLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             //
             // flowLayoutPanel1
@@ -128,7 +128,7 @@ namespace LibreHardwareMonitor.UI
             this.licenseLinkLabel.Size = new System.Drawing.Size(107, 13);
             this.licenseLinkLabel.TabIndex = 9;
             this.licenseLinkLabel.TabStop = true;
-            this.licenseLinkLabel.Text = "Licensing Information";
+            this.licenseLinkLabel.Text = "许可信息";
             this.licenseLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             //
             // AboutBox
@@ -152,7 +152,7 @@ namespace LibreHardwareMonitor.UI
             this.Name = "AboutBox";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "About";
+            this.Text = "关于";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

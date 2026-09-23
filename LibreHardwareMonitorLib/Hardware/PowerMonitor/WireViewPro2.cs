@@ -309,32 +309,32 @@ public sealed class WireViewPro2 : Hardware, IPowerMonitor
     private void CreateSensors()
     {
         //Onboard temperature sensors
-        AddSensor("Onboard Temperature In", 0, SensorType.Temperature, dd => (float)dd.OnboardTempInC);
-        AddSensor("Onboard Temperature Out", 1, SensorType.Temperature, dd => (float)dd.OnboardTempOutC);
+        AddSensor("板载温度 输入", 0, SensorType.Temperature, dd => (float)dd.OnboardTempInC);
+        AddSensor("板载温度 输出", 1, SensorType.Temperature, dd => (float)dd.OnboardTempOutC);
 
         //External temperature sensors, requires shipped temperature sensors to be connected
-        AddSensor("External Temperature 1", 2, SensorType.Temperature, dd => (float)dd.ExternalTemp1C);
-        AddSensor("External Temperature 2", 3, SensorType.Temperature, dd => (float)dd.ExternalTemp2C);
+        AddSensor("外部温度 1", 2, SensorType.Temperature, dd => (float)dd.ExternalTemp1C);
+        AddSensor("外部温度 2", 3, SensorType.Temperature, dd => (float)dd.ExternalTemp2C);
 
         //Pin voltages
-        AddSensor("Pin 1 Voltage", 10, SensorType.Voltage, dd => (float)dd.PinVoltage[0]);
-        AddSensor("Pin 2 Voltage", 11, SensorType.Voltage, dd => (float)dd.PinVoltage[1]);
-        AddSensor("Pin 3 Voltage", 12, SensorType.Voltage, dd => (float)dd.PinVoltage[2]);
-        AddSensor("Pin 4 Voltage", 13, SensorType.Voltage, dd => (float)dd.PinVoltage[3]);
-        AddSensor("Pin 5 Voltage", 14, SensorType.Voltage, dd => (float)dd.PinVoltage[4]);
-        AddSensor("Pin 6 Voltage", 15, SensorType.Voltage, dd => (float)dd.PinVoltage[5]);
+        AddSensor("针脚 1 电压", 10, SensorType.Voltage, dd => (float)dd.PinVoltage[0]);
+        AddSensor("针脚 2 电压", 11, SensorType.Voltage, dd => (float)dd.PinVoltage[1]);
+        AddSensor("针脚 3 电压", 12, SensorType.Voltage, dd => (float)dd.PinVoltage[2]);
+        AddSensor("针脚 4 电压", 13, SensorType.Voltage, dd => (float)dd.PinVoltage[3]);
+        AddSensor("针脚 5 电压", 14, SensorType.Voltage, dd => (float)dd.PinVoltage[4]);
+        AddSensor("针脚 6 电压", 15, SensorType.Voltage, dd => (float)dd.PinVoltage[5]);
 
         //Pin currents
-        AddSensor("Total Current", 20, SensorType.Current, dd => (float)dd.SumCurrentA);
-        AddSensor("Pin 1 Current", 21, SensorType.Current, dd => (float)dd.PinCurrent[0]);
-        AddSensor("Pin 2 Current", 22, SensorType.Current, dd => (float)dd.PinCurrent[1]);
-        AddSensor("Pin 3 Current", 23, SensorType.Current, dd => (float)dd.PinCurrent[2]);
-        AddSensor("Pin 4 Current", 24, SensorType.Current, dd => (float)dd.PinCurrent[3]);
-        AddSensor("Pin 5 Current", 25, SensorType.Current, dd => (float)dd.PinCurrent[4]);
-        AddSensor("Pin 6 Current", 26, SensorType.Current, dd => (float)dd.PinCurrent[5]);
+        AddSensor("总电流", 20, SensorType.Current, dd => (float)dd.SumCurrentA);
+        AddSensor("针脚 1 电流", 21, SensorType.Current, dd => (float)dd.PinCurrent[0]);
+        AddSensor("针脚 2 电流", 22, SensorType.Current, dd => (float)dd.PinCurrent[1]);
+        AddSensor("针脚 3 电流", 23, SensorType.Current, dd => (float)dd.PinCurrent[2]);
+        AddSensor("针脚 4 电流", 24, SensorType.Current, dd => (float)dd.PinCurrent[3]);
+        AddSensor("针脚 5 电流", 25, SensorType.Current, dd => (float)dd.PinCurrent[4]);
+        AddSensor("针脚 6 电流", 26, SensorType.Current, dd => (float)dd.PinCurrent[5]);
 
         //Power
-        AddSensor("Total Power", 30, SensorType.Power, dd => (float)dd.SumPowerW);
+        AddSensor("总功耗", 30, SensorType.Power, dd => (float)dd.SumPowerW);
 
         //Fan
         var fan = AddSensor("Fan", 40, SensorType.Fan, dd => CalculateFanSpeed(dd));

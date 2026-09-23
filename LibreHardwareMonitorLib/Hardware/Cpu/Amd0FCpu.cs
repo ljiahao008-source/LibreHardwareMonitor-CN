@@ -41,7 +41,7 @@ internal sealed class Amd0FCpu : AmdCpu
             _coreTemperatures = new Sensor[_coreCount];
             for (int i = 0; i < _coreCount; i++)
             {
-                _coreTemperatures[i] = new Sensor("Core #" + (i + 1),
+                _coreTemperatures[i] = new Sensor("核心 #" + (i + 1),
                                                   i,
                                                   SensorType.Temperature,
                                                   this,
@@ -54,7 +54,7 @@ internal sealed class Amd0FCpu : AmdCpu
             _coreTemperatures = [];
         }
 
-        _busClock = new Sensor("Bus Speed", 0, SensorType.Clock, this, settings);
+        _busClock = new Sensor("总线速度", 0, SensorType.Clock, this, settings);
         _coreClocks = new Sensor[_coreCount];
         for (int i = 0; i < _coreClocks.Length; i++)
         {

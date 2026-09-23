@@ -180,7 +180,7 @@ internal class MemoryGroup : IGroup, IHardwareChanged
         foreach (SPDAccessor ram in accessors)
         {
             //Default value
-            string name = $"DIMM #{ram.Index}";
+            string name = $"内存条 #{ram.Index}";
 
             //Check if we can switch to the correct page
             if (ram.ChangePage(PageData.ModulePartNumber))

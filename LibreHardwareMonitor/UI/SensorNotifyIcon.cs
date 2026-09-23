@@ -44,20 +44,20 @@ public class SensorNotifyIcon : IDisposable
 
         _pen = new Pen(Color.FromArgb(96, Color.Black));
         ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
-        ToolStripItem hideShowItem = new ToolStripMenuItem("Hide/Show");
+        ToolStripItem hideShowItem = new ToolStripMenuItem("隐藏/显示");
         hideShowItem.Click += delegate
         {
             sensorSystemTray.SendHideShowCommand();
         };
         contextMenuStrip.Items.Add(hideShowItem);
         contextMenuStrip.Items.Add(new ToolStripSeparator());
-        ToolStripItem removeItem = new ToolStripMenuItem("Remove Sensor");
+        ToolStripItem removeItem = new ToolStripMenuItem("移除传感器");
         removeItem.Click += delegate
         {
             sensorSystemTray.Remove(Sensor);
         };
         contextMenuStrip.Items.Add(removeItem);
-        ToolStripItem colorItem = new ToolStripMenuItem("Change Color...");
+        ToolStripItem colorItem = new ToolStripMenuItem("更改颜色...");
         colorItem.Click += delegate
         {
             ColorDialog dialog = new ColorDialog { Color = Color };
@@ -70,7 +70,7 @@ public class SensorNotifyIcon : IDisposable
         };
         contextMenuStrip.Items.Add(colorItem);
         contextMenuStrip.Items.Add(new ToolStripSeparator());
-        ToolStripItem exitItem = new ToolStripMenuItem("Exit");
+        ToolStripItem exitItem = new ToolStripMenuItem("退出");
         exitItem.Click += delegate
         {
             sensorSystemTray.SendExitCommand();
@@ -98,14 +98,15 @@ public class SensorNotifyIcon : IDisposable
         width = width < 16 ? 16 : width;
         height = height < 16 ? 16 : height;
 
-        // adjust the font size to the icon size
+        // 调整字号到图标尺寸。统一取 11px：托盘槽位由系统固定为 16x16（SM_CXSMICON），
+        // 该字号下 "2.0"（风扇）与 "15"（功耗）都能完整显示，各图标字号一致、观感协调。
         FontFamily family = SystemFonts.MessageBoxFont.FontFamily;
         float baseSize;
         switch (family.Name)
         {
-            case "Segoe UI": baseSize = 12; break;
+            case "Segoe UI": baseSize = 11; break;
             case "Tahoma": baseSize = 11; break;
-            default: baseSize = 12; break;
+            default: baseSize = 11; break;
         }
 
         _font = new Font(family, baseSize * width / 16.0f, GraphicsUnit.Pixel);
@@ -196,43 +197,73 @@ public class SensorNotifyIcon : IDisposable
     private Icon CreateTransparentIcon()
     {
         string text = GetString();
-        int count = 0;
-        for (int i = 0; i < text.Length; i++)
-            if ((text[i] >= '0' && text[i] <= '9') || text[i] == '-')
-                count++;
-        bool small = count > 2;
 
-        _graphics.Clear(Color.Black);
-        Rectangle bounds = new Rectangle(Point.Empty, _bitmap.Size);
-        TextRenderer.DrawText(_graphics, text, small ? _smallFont : _font,
-            bounds, Color.White, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-        
-        BitmapData data = _bitmap.LockBits(
-            new Rectangle(0, 0, _bitmap.Width, _bitmap.Height),
-            ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-
-        IntPtr Scan0 = data.Scan0;
-
-        int numBytes = _bitmap.Width * _bitmap.Height * 4;
-        byte[] bytes = new byte[numBytes];
-        Marshal.Copy(Scan0, bytes, 0, numBytes);
-        _bitmap.UnlockBits(data);
-
-        byte red, green, blue;
-        for (int i = 0; i < bytes.Length; i += 4)
+        // 依据实际字宽选择字号，避免数字超出图标边界被裁掉。
+        // 不能只数数字个数：像 "2.1" 这类值数字虽少，但多一个小数点就更宽。
+        Font font = _font;
+        if (MeasureTextWidth(text, font) > _bitmap.Width)
         {
-            blue = bytes[i];
-            green = bytes[i + 1];
-            red = bytes[i + 2];
+            font = _smallFont;
 
-            bytes[i] = _color.B;
-            bytes[i + 1] = _color.G;
-            bytes[i + 2] = _color.R;
-            bytes[i + 3] = (byte)(0.3 * red + 0.59 * green + 0.11 * blue);
+            float smallWidth = MeasureTextWidth(text, font);
+            if (smallWidth > _bitmap.Width)
+            {
+                // 留 1px 余量，避免缩放后因字体度量非线性仍差一点点而贴边。
+                float size = Math.Max(1f, _smallFont.Size * (_bitmap.Width - 1) / smallWidth);
+                font = new Font(_smallFont.FontFamily, size, GraphicsUnit.Pixel);
+            }
         }
 
-        return IconFactory.Create(bytes, _bitmap.Width, _bitmap.Height,
-            PixelFormat.Format32bppArgb);
+        try
+        {
+            _graphics.Clear(Color.Black);
+            Rectangle bounds = new Rectangle(Point.Empty, _bitmap.Size);
+            // NoPadding 让文字使用完整的 16px 宽度，避免 GDI 预留内边距把数字挤到边界外。
+            TextRenderer.DrawText(_graphics, text, font,
+                bounds, Color.White, Color.Black,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPadding);
+
+            BitmapData data = _bitmap.LockBits(
+                new Rectangle(0, 0, _bitmap.Width, _bitmap.Height),
+                ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+            IntPtr Scan0 = data.Scan0;
+
+            int numBytes = _bitmap.Width * _bitmap.Height * 4;
+            byte[] bytes = new byte[numBytes];
+            Marshal.Copy(Scan0, bytes, 0, numBytes);
+            _bitmap.UnlockBits(data);
+
+            byte red, green, blue;
+            for (int i = 0; i < bytes.Length; i += 4)
+            {
+                blue = bytes[i];
+                green = bytes[i + 1];
+                red = bytes[i + 2];
+
+                bytes[i] = _color.B;
+                bytes[i + 1] = _color.G;
+                bytes[i + 2] = _color.R;
+                bytes[i + 3] = (byte)(0.3 * red + 0.59 * green + 0.11 * blue);
+            }
+
+            return IconFactory.Create(bytes, _bitmap.Width, _bitmap.Height,
+                PixelFormat.Format32bppArgb);
+        }
+        finally
+        {
+            // 仅释放本次临时创建的字号，缓存的两个字号由 Dispose 统一释放。
+            if (font != _font && font != _smallFont)
+                font.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// 测量文字的实际渲染宽度（不含 TextRenderer 的内边距），用于判断是否放得进图标。
+    /// </summary>
+    private float MeasureTextWidth(string text, Font font)
+    {
+        return _graphics.MeasureString(text, font, PointF.Empty, StringFormat.GenericTypographic).Width;
     }
 
     private Icon CreatePercentageIcon()

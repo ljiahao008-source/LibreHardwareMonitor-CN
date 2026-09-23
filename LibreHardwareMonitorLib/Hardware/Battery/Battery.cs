@@ -73,16 +73,16 @@ internal sealed class Battery : Hardware
             Chemistry = BatteryChemistry.Unknown;
         }
 
-        _designedCapacity = new Sensor("Designed Capacity", 0, SensorType.Energy, this, settings);
-        _fullChargedCapacity = new Sensor("Fully-Charged Capacity", 1, SensorType.Energy, this, settings);
-        _degradationLevel = new Sensor("Degradation Level", 1, SensorType.Level, this, settings);
-        _chargeLevel = new Sensor("Charge Level", 0, SensorType.Level, this, settings);
-        _voltage = new Sensor("Voltage", 0, SensorType.Voltage, this, settings);
-        _remainingCapacity = new Sensor("Remaining Capacity", 2, SensorType.Energy, this, settings);
-        _chargeDischargeCurrent = new Sensor("Charge/Discharge Current", 0, SensorType.Current, this, settings);
-        _chargeDischargeRate = new Sensor("Charge/Discharge Rate", 0, SensorType.Power, this, settings);
-        _remainingTime = new Sensor("Remaining Time (Estimated)", 0, SensorType.TimeSpan, this, settings);
-        _temperature = new Sensor("Battery Temperature", 0, SensorType.Temperature, this, settings);
+        _designedCapacity = new Sensor("设计容量", 0, SensorType.Energy, this, settings);
+        _fullChargedCapacity = new Sensor("满充容量", 1, SensorType.Energy, this, settings);
+        _degradationLevel = new Sensor("损耗水平", 1, SensorType.Level, this, settings);
+        _chargeLevel = new Sensor("充电水平", 0, SensorType.Level, this, settings);
+        _voltage = new Sensor("电压", 0, SensorType.Voltage, this, settings);
+        _remainingCapacity = new Sensor("剩余容量", 2, SensorType.Energy, this, settings);
+        _chargeDischargeCurrent = new Sensor("充/放电电流", 0, SensorType.Current, this, settings);
+        _chargeDischargeRate = new Sensor("充/放电功率", 0, SensorType.Power, this, settings);
+        _remainingTime = new Sensor("剩余时间 (估算)", 0, SensorType.TimeSpan, this, settings);
+        _temperature = new Sensor("电池温度", 0, SensorType.Temperature, this, settings);
 
         if (batteryInfo.FullChargedCapacity is not PInvoke.BATTERY_UNKNOWN_CAPACITY &&
             batteryInfo.DesignedCapacity is not PInvoke.BATTERY_UNKNOWN_CAPACITY)
@@ -182,18 +182,18 @@ internal sealed class Battery : Hardware
 
                 if (rateWatts > 0)
                 {
-                    _chargeDischargeRate.Name = "Charge Rate";
-                    _chargeDischargeCurrent.Name = "Charge Current";
+                    _chargeDischargeRate.Name = "充电功率";
+                    _chargeDischargeCurrent.Name = "充电电流";
                 }
                 else if (rateWatts < 0)
                 {
-                    _chargeDischargeRate.Name = "Discharge Rate";
-                    _chargeDischargeCurrent.Name = "Discharge Current";
+                    _chargeDischargeRate.Name = "放电功率";
+                    _chargeDischargeCurrent.Name = "放电电流";
                 }
                 else
                 {
-                    _chargeDischargeRate.Name = "Charge/Discharge Rate";
-                    _chargeDischargeCurrent.Name = "Charge/Discharge Current";
+                    _chargeDischargeRate.Name = "充/放电功率";
+                    _chargeDischargeCurrent.Name = "充/放电电流";
                 }
             }
         }
