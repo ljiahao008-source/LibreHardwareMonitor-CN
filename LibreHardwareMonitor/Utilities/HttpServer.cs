@@ -268,7 +268,8 @@ public class HttpServer
 
                 if (dict["action"] == "ResetMinMax")
                 {
-                    // Reset Min/Max, then return Sensor values...
+                    // Reset Average/Min/Max, then return Sensor values...
+                    sNode.Sensor.ResetAverage();
                     sNode.Sensor.ResetMin();
                     sNode.Sensor.ResetMax();
                     dict["action"] = "Get";
@@ -283,6 +284,7 @@ public class HttpServer
                         throw new ArgumentNullException("No value provided");
                     case "Get":
                         result["value"] = sNode.Sensor.Value;
+                        result["average"] = sNode.Sensor.Average;
                         result["min"] = sNode.Sensor.Min;
                         result["max"] = sNode.Sensor.Max;
                         result["format"] = sNode.Format;
@@ -394,6 +396,7 @@ public class HttpServer
                         {
                             _rootElement.Accept(new SensorVisitor(delegate (ISensor sensor)
                             {
+                                sensor.ResetAverage();
                                 sensor.ResetMin();
                                 sensor.ResetMax();
                             }));
@@ -428,7 +431,7 @@ public class HttpServer
   <BODY><H4>401 未授权</H4>
   需要身份验证。</BODY></HTML> ";
 
-            await SendResponseAsync(context.Response, responseString, "text/html");
+            await SendResponseAsync(context.Response, responseString, "text/html; charset=utf-8");
         }
 
         try
@@ -789,6 +792,7 @@ public class HttpServer
             ["Text"] = n.Text,
             ["Min"] = string.Empty,
             ["Value"] = string.Empty,
+            ["Average"] = string.Empty,
             ["Max"] = string.Empty
         };
 
@@ -801,11 +805,13 @@ public class HttpServer
                 // Formatted values, e.g. Throughput will be measured in KB/s or MB/s depending on the value
                 jsonNode["Min"] = sensorNode.Min;
                 jsonNode["Value"] = sensorNode.Value;
+                jsonNode["Average"] = sensorNode.Average;
                 jsonNode["Max"] = sensorNode.Max;
 
                 // Unformatted values for external systems to have consistent readings, e.g. Throughput will always be measured in B/s
                 jsonNode["RawMin"] = string.Format(sensorNode.Format, sensorNode.Sensor.Min);
                 jsonNode["RawValue"] = string.Format(sensorNode.Format, sensorNode.Sensor.Value);
+                jsonNode["RawAverage"] = string.Format(sensorNode.Format, sensorNode.Sensor.Average);
                 jsonNode["RawMax"] = string.Format(sensorNode.Format, sensorNode.Sensor.Max);
 
                 jsonNode["ImageURL"] = "images/transparent.png";
@@ -842,7 +848,7 @@ public class HttpServer
             case ".doc": return "application/msword";
             case ".gif": return "image/gif";
             case ".htm":
-            case ".html": return "text/html";
+            case ".html": return "text/html; charset=utf-8";
             case ".jpg":
             case ".jpeg": return "image/jpeg";
             case ".js": return "application/x-javascript";

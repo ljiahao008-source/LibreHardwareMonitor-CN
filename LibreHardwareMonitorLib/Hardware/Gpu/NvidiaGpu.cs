@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
 // If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 // Copyright (C) LibreHardwareMonitor and Contributors.
 // Partial Copyright (C) Michael Möller <mmoeller@openhardwaremonitor.org> and Contributors.
@@ -84,13 +84,13 @@ internal sealed class NvidiaGpu : GenericGpu
 
                 string name = sensor.Target switch
                 {
-                    NvApi.NvThermalTarget.Gpu => "GPU Core",
-                    NvApi.NvThermalTarget.Memory => "GPU Memory",
-                    NvApi.NvThermalTarget.PowerSupply => "GPU Power Supply",
-                    NvApi.NvThermalTarget.Board => "GPU Board",
-                    NvApi.NvThermalTarget.VisualComputingBoard => "GPU Visual Computing Board",
-                    NvApi.NvThermalTarget.VisualComputingInlet => "GPU Visual Computing Inlet",
-                    NvApi.NvThermalTarget.VisualComputingOutlet => "GPU Visual Computing Outlet",
+                    NvApi.NvThermalTarget.Gpu => "GPU 核心",
+                    NvApi.NvThermalTarget.Memory => "GPU 显存",
+                    NvApi.NvThermalTarget.PowerSupply => "GPU 供电",
+                    NvApi.NvThermalTarget.Board => "GPU 板卡",
+                    NvApi.NvThermalTarget.VisualComputingBoard => "GPU 视觉计算板",
+                    NvApi.NvThermalTarget.VisualComputingInlet => "GPU 视觉计算入口",
+                    NvApi.NvThermalTarget.VisualComputingOutlet => "GPU 视觉计算出口",
                     _ => "GPU"
                 };
 
@@ -142,10 +142,10 @@ internal sealed class NvidiaGpu : GenericGpu
                         var clockId = (NvApi.NvGpuPublicClockId)i;
                         string name = clockId switch
                         {
-                            NvApi.NvGpuPublicClockId.Graphics => "GPU Core",
-                            NvApi.NvGpuPublicClockId.Memory => "GPU Memory",
-                            NvApi.NvGpuPublicClockId.Processor => "GPU Shader",
-                            NvApi.NvGpuPublicClockId.Video => "GPU Video",
+                            NvApi.NvGpuPublicClockId.Graphics => "GPU 核心",
+                            NvApi.NvGpuPublicClockId.Memory => "GPU 显存",
+                            NvApi.NvGpuPublicClockId.Processor => "GPU 着色器",
+                            NvApi.NvGpuPublicClockId.Video => "GPU 视频",
                             _ => null
                         };
 

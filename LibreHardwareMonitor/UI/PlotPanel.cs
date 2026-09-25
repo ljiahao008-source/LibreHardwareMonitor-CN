@@ -105,10 +105,25 @@ public class PlotPanel : UserControl
 
     public void SetCurrentSettings()
     {
-        foreach (LinearAxis axis in _axes.Values)
+        foreach (KeyValuePair<SensorType, LinearAxis> pair in _axes)
         {
-            _settings.SetValue("plotPanel.Min" + axis.Key, (float)axis.ActualMinimum);
-            _settings.SetValue("plotPanel.Max" + axis.Key, (float)axis.ActualMaximum);
+            string minKey = "plotPanel.Min" + pair.Value.Key;
+            string maxKey = "plotPanel.Max" + pair.Value.Key;
+            LinearAxis axis = pair.Value;
+
+            // 只持久化「用户手动缩放过的」轴。自动缩放的轴 Minimum/Maximum 是 NaN，
+            // 此时把它的实际范围（没有数据时就是默认的 0/100）写进配置，下次启动会照着
+            // Zoom()，风扇（数千 RPM）这类轴就被钉在可视区外，曲线看起来"消失"了。
+            // 自动轴顺带清掉历史遗留的缩放值，避免旧的错误范围一直被沿用。
+            if (double.IsNaN(axis.Minimum) && double.IsNaN(axis.Maximum))
+            {
+                _settings.Remove(minKey);
+                _settings.Remove(maxKey);
+                continue;
+            }
+
+            _settings.SetValue(minKey, (float)axis.ActualMinimum);
+            _settings.SetValue(maxKey, (float)axis.ActualMaximum);
         }
         _settings.SetValue("plotPanel.MinTimeSpan", (float)_timeAxis.ActualMinimum);
         _settings.SetValue("plotPanel.MaxTimeSpan", (float)_timeAxis.ActualMaximum);

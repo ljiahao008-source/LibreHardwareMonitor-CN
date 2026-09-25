@@ -318,11 +318,11 @@ public class SensorNotifyIcon : IDisposable
             case SensorType.Power: format = "\n{0}: {1:F0} W"; break;
             case SensorType.Data: format = "\n{0}: {1:F0} GB"; break;
             case SensorType.Factor: format = "\n{0}: {1:F3} GB"; break;
-            case SensorType.Energy: format = "\n{0}: {0:F0} mWh"; break;
-            case SensorType.Noise: format = "\n{0}: {0:F0} dBA"; break;
-            case SensorType.Conductivity: format = "\n{0}: {0:F1} µS/cm"; break;
-            case SensorType.Humidity: format = "\n{0}: {0:F0} %"; break;
-            case SensorType.Timing: format = "\n{0}: {0:F3} ns"; break;
+            case SensorType.Energy: format = "\n{0}: {1:F0} mWh"; break;
+            case SensorType.Noise: format = "\n{0}: {1:F0} dBA"; break;
+            case SensorType.Conductivity: format = "\n{0}: {1:F1} µS/cm"; break;
+            case SensorType.Humidity: format = "\n{0}: {1:F0} %"; break;
+            case SensorType.Timing: format = "\n{0}: {1:F3} ns"; break;
         }
 
         string formattedValue = string.Format(format, Sensor.Name, Sensor.Value);

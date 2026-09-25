@@ -1,7 +1,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
 // If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 // Copyright (C) LibreHardwareMonitor and Contributors.
-// Partial Copyright (C) Michael Möller <mmoeller@openhardwaremonitor.org> and Contributors.
+// Partial Copyright (C) Michael Mï¿½ller <mmoeller@openhardwaremonitor.org> and Contributors.
 // All Rights Reserved.
 
 using System;
@@ -20,9 +20,11 @@ internal class Sensor : ISensor
     private readonly bool _trackMinMax;
     private readonly List<SensorValue> _values = new();
     private int _count;
+    private long _countAll;
     private float? _currentValue;
     private string _name;
     private float _sum;
+    private double _sumAll;
     private TimeSpan _valuesTimeWindow = TimeSpan.FromDays(1.0);
 
     public Sensor(string name, int index, SensorType sensorType, Hardware hardware, ISettings settings) :
@@ -88,6 +90,8 @@ internal class Sensor : ISensor
 
     public bool IsDefaultHidden { get; }
 
+    public float? Average { get; private set; }
+
     public float? Max { get; private set; }
 
     public float? Min { get; private set; }
@@ -136,6 +140,10 @@ internal class Sensor : ISensor
             {
                 if (value.HasValue && !float.IsNaN(value.Value) && !float.IsInfinity(value.Value))
                 {
+                    _sumAll += value.Value;
+                    _countAll++;
+                    Average = (float)(_sumAll / _countAll);
+
                     if (!Min.HasValue || Min > value)
                         Min = value;
 
@@ -160,6 +168,13 @@ internal class Sensor : ISensor
             if (value == TimeSpan.Zero)
                 _values.Clear();
         }
+    }
+
+    public void ResetAverage()
+    {
+        Average = null;
+        _sumAll = 0;
+        _countAll = 0;
     }
 
     public void ResetMin()

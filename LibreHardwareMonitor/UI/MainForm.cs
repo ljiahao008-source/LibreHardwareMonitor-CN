@@ -58,6 +58,8 @@ public sealed partial class MainForm : Form
     private readonly UpdateVisitor _updateVisitor = new();
 
     private int _delayCount;
+    private DateTime _lastSettingsSave = DateTime.UtcNow;
+    private bool _settingsSaveErrorReported;
     private Form _plotForm;
     private UserRadioGroup _plotLocation;
     private UserRadioGroup _splitPanelScalingSetting;
@@ -111,6 +113,7 @@ public sealed partial class MainForm : Form
         nodeCheckBox.IsVisibleValueNeeded += NodeCheckBox_IsVisibleValueNeeded;
         nodeTextBoxText.DrawText += NodeTextBoxText_DrawText;
         nodeTextBoxValue.DrawText += NodeTextBoxText_DrawText;
+        nodeTextBoxAverage.DrawText += NodeTextBoxText_DrawText;
         nodeTextBoxMin.DrawText += NodeTextBoxText_DrawText;
         nodeTextBoxMax.DrawText += NodeTextBoxText_DrawText;
         nodeTextBoxText.EditorShowing += NodeTextBoxText_EditorShowing;
@@ -118,7 +121,7 @@ public sealed partial class MainForm : Form
         for (int i = 1; i < treeView.Columns.Count; i++)
         {
             TreeColumn column = treeView.Columns[i];
-            column.Width = Math.Max(20, Math.Min(400, _settings.GetValue("treeView.Columns." + column.Header + ".Width", column.Width)));
+            column.Width = Math.Max(20, Math.Min(400, _settings.GetValue("treeView.Columns." + GetColumnSettingsKey(column) + ".Width", column.Width)));
         }
 
         TreeModel treeModel = new();
@@ -222,14 +225,20 @@ public sealed partial class MainForm : Form
         UserOption showHiddenSensors = new("hiddenMenuItem", false, hiddenMenuItem, _settings);
         showHiddenSensors.Changed += delegate { treeModel.ForceVisible = showHiddenSensors.Value; };
 
+        // 这里必须用列对象本身，不能用 treeView.Columns[n] 这种下标：
+        // 列的顺序以后还可能变，下标一旦对不上就会控制错列（曾发生过：
+        // 插入平均值列后，「最小值」菜单实际隐藏了平均值列）。
         UserOption showValue = new("valueMenuItem", true, valueMenuItem, _settings);
-        showValue.Changed += delegate { treeView.Columns[1].IsVisible = showValue.Value; };
+        showValue.Changed += delegate { value.IsVisible = showValue.Value; };
+
+        UserOption showAverage = new("averageMenuItem", true, averageMenuItem, _settings);
+        showAverage.Changed += delegate { average.IsVisible = showAverage.Value; };
 
         UserOption showMin = new("minMenuItem", false, minMenuItem, _settings);
-        showMin.Changed += delegate { treeView.Columns[2].IsVisible = showMin.Value; };
+        showMin.Changed += delegate { min.IsVisible = showMin.Value; };
 
         UserOption showMax = new("maxMenuItem", true, maxMenuItem, _settings);
-        showMax.Changed += delegate { treeView.Columns[3].IsVisible = showMax.Value; };
+        showMax.Changed += delegate { max.IsVisible = showMax.Value; };
 
         _ = new UserOption("startMinMenuItem", false, startMinMenuItem, _settings);
         _minimizeToTray = new UserOption("minTrayMenuItem", true, minTrayMenuItem, _settings);
@@ -938,8 +947,41 @@ public sealed partial class MainForm : Form
         _systemTray.Redraw();
         _gadget?.Redraw();
 
+        // Periodically persist settings so that no changes are lost even if the
+        // application is terminated without a regular shutdown (e.g. when
+        // "minimize on close" is enabled or the process is killed).
+        if (_settings.IsDirty && (DateTime.UtcNow - _lastSettingsSave).TotalSeconds >= 60)
+        {
+            SaveConfiguration();
+            _lastSettingsSave = DateTime.UtcNow;
+        }
+
         if (!backgroundUpdater.IsBusy)
             backgroundUpdater.RunWorkerAsync();
+    }
+
+    /// <summary>
+    /// 列宽的配置键必须与显示文本解耦：表头会随文案调整（如汉化）而变化，键不能跟着变，
+    /// 否则已保存的列宽会失效，旧键还会永久残留在配置里。
+    /// </summary>
+    private string GetColumnSettingsKey(TreeColumn column)
+    {
+        if (column == sensor)
+            return "Sensor";
+
+        if (column == value)
+            return "Value";
+
+        if (column == average)
+            return "Average";
+
+        if (column == min)
+            return "Min";
+
+        if (column == max)
+            return "Max";
+
+        return column.Header;
     }
 
     private void SaveConfiguration()
@@ -950,7 +992,7 @@ public sealed partial class MainForm : Form
         _plotPanel.SetCurrentSettings();
 
         foreach (TreeColumn column in treeView.Columns)
-            _settings.SetValue("treeView.Columns." + column.Header + ".Width", column.Width);
+            _settings.SetValue("treeView.Columns." + GetColumnSettingsKey(column) + ".Width", column.Width);
 
         _settings.SetValue("listenerIp", Server.ListenerIp);
         _settings.SetValue("listenerPort", Server.ListenerPort);
@@ -963,27 +1005,29 @@ public sealed partial class MainForm : Form
         try
         {
             _settings.Save(fileName);
+            _settingsSaveErrorReported = false;
         }
         catch (UnauthorizedAccessException)
         {
-            MessageBox.Show("无法访问路径 '" +
-                            fileName +
-                            "'，访问被拒绝。" +
-                            "当前设置无法保存。",
-                            "错误",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+            ReportSaveError("无法访问路径 '" + fileName + "'，访问被拒绝。");
         }
         catch (IOException)
         {
-            MessageBox.Show("路径 '" +
-                            fileName +
-                            "' 不可写。" +
-                            "当前设置无法保存。",
-                            "错误",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+            ReportSaveError("路径 '" + fileName + "' 不可写。");
         }
+    }
+
+    /// <summary>
+    /// 保存失败只提示一次。定时自动保存会周期性重试，若每次都弹窗会持续骚扰用户。
+    /// 下次保存成功后标志复位，后续再失败会重新提示。
+    /// </summary>
+    private void ReportSaveError(string reason)
+    {
+        if (_settingsSaveErrorReported)
+            return;
+
+        _settingsSaveErrorReported = true;
+        MessageBox.Show(reason + "当前设置无法保存。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
     private void MainForm_Load(object sender, EventArgs e)
@@ -1289,6 +1333,7 @@ public sealed partial class MainForm : Form
     {
         _computer.Accept(new SensorVisitor(delegate(ISensor sensorClick)
         {
+            sensorClick.ResetAverage();
             sensorClick.ResetMin();
             sensorClick.ResetMax();
         }));

@@ -76,7 +76,14 @@ internal sealed class AcpiWmiHardware : Hardware
             throw new InvalidOperationException("ACPI WMI method '" + MethodGetFanControl + "' returned no value.");
 
         // 低 16 位为风扇转速（RPM）。
-        return Convert.ToUInt32(raw, CultureInfo.InvariantCulture) & 0xFFFF;
+        // 该编号没有风扇（或控制器忙/无响应）时返回 0x7FFFFFFF，其低 16 位为 0xFFFF；
+        // 必须过滤掉，否则会显示出 65535 RPM 这种不可能的读数。
+        uint raw32 = Convert.ToUInt32(raw, CultureInfo.InvariantCulture);
+        uint rpm = raw32 & 0xFFFF;
+        if (rpm == 0xFFFF)
+            throw new InvalidOperationException("ACPI WMI 返回无效转速（0x" + raw32.ToString("X8", CultureInfo.InvariantCulture) + "）。");
+
+        return rpm;
     }
 
     /// <summary>

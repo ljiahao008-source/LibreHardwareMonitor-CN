@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+// This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
 // If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 // Copyright (C) LibreHardwareMonitor and Contributors.
 // Partial Copyright (C) Michael Möller <mmoeller@openhardwaremonitor.org> and Contributors.
@@ -83,6 +83,11 @@ public interface ISensor : IElement
     bool IsDefaultHidden { get; }
 
     /// <summary>
+    /// Gets an average value recorded for the given sensor.
+    /// </summary>
+    float? Average { get; }
+
+    /// <summary>
     /// Gets a maximum value recorded for the given sensor.
     /// </summary>
     float? Max { get; }
@@ -116,6 +121,11 @@ public interface ISensor : IElement
     IEnumerable<SensorValue> Values { get; }
 
     TimeSpan ValuesTimeWindow { get; set; }
+
+    /// <summary>
+    /// Resets a value stored in <see cref="Average"/>.
+    /// </summary>
+    void ResetAverage();
 
     /// <summary>
     /// Resets a value stored in <see cref="Min"/>.

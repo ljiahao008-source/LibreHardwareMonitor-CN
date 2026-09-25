@@ -621,7 +621,7 @@ public class Computer : IComputer
         Array.Sort(sensors, CompareSensor);
 
         foreach (ISensor sensor in sensors)
-            w.WriteLine("{0}|  +- {1,-14} : {2,8:G6} {3,8:G6} {4,8:G6} ({5})", space, sensor.Name, sensor.Value, sensor.Min, sensor.Max, sensor.Identifier);
+            w.WriteLine("{0}|  +- {1,-14} : {2,8:G6} {3,8:G6} {4,8:G6} {5,8:G6} ({6})", space, sensor.Name, sensor.Value, sensor.Average, sensor.Min, sensor.Max, sensor.Identifier);
 
         foreach (IHardware subHardware in hardware.SubHardware)
             ReportHardwareSensorTree(subHardware, w, "|  ");

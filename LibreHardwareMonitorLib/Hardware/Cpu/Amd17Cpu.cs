@@ -13,6 +13,9 @@ namespace LibreHardwareMonitor.Hardware.Cpu;
 
 internal sealed class Amd17Cpu : AmdCpu
 {
+    // 传感器名与按名查找共用同一常量：避免改名（如汉化）后查找失配。
+    private const string BusClockSensorName = "总线速度";
+
     private readonly Processor _processor;
     private readonly Dictionary<SensorType, int> _sensorTypeIndex;
     private readonly RyzenSMU _smu;
@@ -136,7 +139,7 @@ internal sealed class Amd17Cpu : AmdCpu
             _ccdTemperatures = new Sensor[8]; // Hardcoded until there's a way to get max CCDs.
             _coreVoltage = new Sensor("核心电压 (SVI2 TFN)", _cpu._sensorTypeIndex[SensorType.Voltage]++, SensorType.Voltage, _cpu, _cpu._settings);
             _socVoltage = new Sensor("SoC 电压 (SVI2 TFN)", _cpu._sensorTypeIndex[SensorType.Voltage]++, SensorType.Voltage, _cpu, _cpu._settings);
-            _busClock = new Sensor("总线速度", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
+            _busClock = new Sensor(BusClockSensorName, _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
             _avgClock = new Sensor("核心平均频率", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
             _avgClockEffcetive = new Sensor("核心平均有效频率", _cpu._sensorTypeIndex[SensorType.Clock]++, SensorType.Clock, _cpu, _cpu._settings);
 
@@ -729,7 +732,7 @@ internal sealed class Amd17Cpu : AmdCpu
             {
                 double coreClock = 0;
                 double busClock = 100.0; //bus speed in MHz
-                _busSpeed ??= _cpu.Sensors.FirstOrDefault(x => x.Name == "Bus Speed");
+                _busSpeed ??= _cpu.Sensors.FirstOrDefault(x => x.Name == BusClockSensorName);
                 if (_busSpeed?.Value.HasValue == true && _busSpeed.Value > 0)
                     busClock = (double)_busSpeed.Value;
 
